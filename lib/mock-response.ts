@@ -1,8 +1,10 @@
+import { conversationQuery } from "./conversation-query"
+import { composeAnswer } from "./answer-composer"
 import examesData from "@/data/exames.json"
 import preparosData from "@/data/preparos.json"
 import { searchExames, normalize } from "@/lib/search"
 import { stemQuery } from "@/lib/stem"
-import { explicitlyNoPreparation, arrivalInstruction } from "@/lib/preparation-policy"
+import { arrivalInstruction } from "@/lib/preparation-policy"
 import { asksMedicationDecision, medicationReferral } from "@/lib/medication-policy"
 import { deterministicIntent } from "@/lib/request-policy"
 import { parseFilter, classifyPreparo } from "@/lib/aggregate"
@@ -10,14 +12,6 @@ import type { ChatMessage, Exame, PreparosFile, Profile, Source } from "@/lib/ty
 
 const exames = examesData as Exame[]
 const preparos = preparosData as PreparosFile
-
-/** Divide um bloco de orientações em itens (frases) para exibir como lista. */
-function toItems(text: string): string[] {
-  return text
-    .split(/(?<=[.;])\s+(?=[A-ZÀ-Ú0-9])/)
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0)
-}
 
 function phoneForModalidade(modalidade: string): string {
   const tel = preparos.meta.orientacoes_gerais.telefones
@@ -82,18 +76,10 @@ function fluxoReply(): { reply: string; sources: Source[] } | null {
  */
 /** Resolve exame na mensagem; se follow-up sem exame, usa histórico recente. */
 function resolveExames(message: string, history: ChatMessage[]): Exame[] {
-  const direct = searchExames(message, exames)
-  if (direct.length > 0) return direct
-  const lastUser = history
-    .filter((m) => m.role === "user")
-    .slice(-3)
-    .map((m) => m.content)
-    .join(" ")
-  if (!lastUser) return []
-  return searchExames(`${lastUser} ${message}`, exames)
+  return searchExames(conversationQuery(message, history), exames)
 }
 
-export function generateMockResponse(
+function buildResponse(
   message: string,
   profile: Profile,
   history: ChatMessage[] = [],
@@ -107,7 +93,7 @@ export function generateMockResponse(
       sources: matched.map(e => profile === "professional" ? { nome: e.nome, sigla: e.sigla } : { nome: e.nome }),
     }
   }
-  const intent = deterministicIntent(message)
+  const intent = deterministicIntent(message) ?? (deterministicIntent(conversationQuery(message, history)) === "clarify" ? "clarify" : undefined)
   if (intent === "count") {
     const filter = parseFilter(message)
     const count = exames.filter(e => (!filter.modalidade || e.modalidade === filter.modalidade) && (!filter.need || classifyPreparo(e, preparos) === filter.need)).length
@@ -141,79 +127,18 @@ export function generateMockResponse(
     return { reply, sources: [] }
   }
 
-  const isPro = profile === "professional"
-  const sources: Source[] = matched.map((e) =>
-    isPro ? { nome: e.nome, sigla: e.sigla } : { nome: e.nome },
-  )
-  const blocks: string[] = []
+  const composed = composeAnswer(conversationQuery(message, history), matched, preparos, profile)
+  if (composed) return fluxo ? { reply: composed.reply + "\n\n" + fluxo.reply, sources: [...composed.sources, ...fluxo.sources] } : composed
+  return {reply: "Não consegui identificar uma orientação compatível. Confirme o nome completo do exame com a UDI.", sources: []}
+}
 
-  for (const exame of matched) {
-    const preparo = preparos.preparos[exame.preparo_id]
-    const phone = phoneForModalidade(exame.modalidade)
-
-    if (profile === "professional") {
-      let b = `**${exame.nome}** (código: ${exame.sigla})\n`
-      b += `Modalidade: ${exame.modalidade.replace(/_/g, " ")}\n`
-
-      if (preparo.status === "pendente") {
-        b += `\nPreparo específico NÃO cadastrado. Não orientar ausência de preparo. ${preparo.fallback}`
-      } else {
-        b += `\nPreparo / protocolo:\n`
-        b += toItems(preparo.orientacoes)
-          .map((i) => `- ${i}`)
-          .join("\n")
-        if (preparo.observacoes) {
-          b += `\n\nFluxo / observações:\n`
-          b += toItems(preparo.observacoes)
-            .map((i) => `- ${i}`)
-            .join("\n")
-        }
-      }
-      b += `\n\nContato do setor: ${phone}.`
-      blocks.push(b)
-    } else {
-      // Paciente
-      let b = `**${exame.nome_usual}**\n`
-
-      if (preparo.status === "pendente") {
-        b += `\n**Preparo:** ${preparo.fallback}`
-        b += `\n\n**Telefone para confirmar:** ${phone}`
-      } else {
-        const semPreparo = preparo.status === "ok" && explicitlyNoPreparation(exame.preparo_id)
-        b += preparo.status === "parcial"
-          ? `\n**Preparo parcial:** estas são as informações cadastradas. Confirme com o setor as orientações não registradas.\n`
-          : `\n**Preparo:**\n`
-        b += toItems(preparo.orientacoes)
-          .map((i) => `- ${i}`)
-          .join("\n")
-        if (semPreparo) {
-          b += `\n\n_Este exame, conforme nossa base, não exige preparo especial. Pode ficar tranquilo(a)._`
-        }
-        if (preparo.observacoes) {
-          b += `\n\n**Bom saber:**\n`
-          b += toItems(preparo.observacoes)
-            .map((i) => `- ${i}`)
-            .join("\n")
-        }
-        b += `\n\n**Telefone do setor:** ${phone}`
-      }
-      blocks.push(b)
-    }
-  }
-
-  const docsBlock =
-    profile === "professional"
-      ? ""
-      : `\n\n---\n**Documentos para levar:** documento de identificação com foto, Cartão do SUS, Cartão do Hospital e o pedido médico original. Traga também exames anteriores relacionados, se tiver.` +
-        `\n\n**No dia:** ${arrivalInstruction(matched.map(e => preparos.preparos[e.preparo_id].orientacoes))} Avise o setor com antecedência se você é de isolamento, acamado(a), usa oxigênio contínuo ou é obeso(a).`
-
-  let reply = blocks.join("\n\n---\n\n") + docsBlock
-
-  // Exame(s) + pergunta de fluxo: anexa o passo a passo operacional.
-  if (fluxo) {
-    reply += `\n\n---\n\n${fluxo.reply}`
-    sources.push(...fluxo.sources)
-  }
-
-  return { reply, sources }
+/** Keep the conversational tone independent of factual response construction. */
+export function generateMockResponse(message: string, profile: Profile, history: ChatMessage[] = []) {
+  const result = buildResponse(message, profile, history)
+  if (profile !== "patient") return result
+  let reply = result.reply
+  if (history.length && reply.startsWith("Olá! ")) reply = reply.slice(5)
+  if (!history.length && !reply.startsWith("Olá!")) reply = "Olá!\n\n" + reply
+  if (!reply.includes("Estou à disposição!")) reply += "\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!"
+  return { ...result, reply }
 }

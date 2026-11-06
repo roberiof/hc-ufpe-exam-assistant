@@ -187,11 +187,11 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
   const child = /\bcrianca\b|\bfilh[oa]\b|\bpediatric/.test(q)
   const adult = /\badult/.test(q)
   const compatible = (name: string, attribute: string, value: boolean | undefined) =>
-    value === undefined || new RegExp(`\\b${value ? "com" : "sem"} ${attribute}\\b`).test(name)
+    value === undefined || (new RegExp(`\\b${value ? "com" : "sem"} ${attribute}\\b`).test(name) && !new RegExp(`\\b${value ? "sem" : "com"} ${attribute}\\b`).test(name))
 
   const scored = index
     .filter(({ exame }) => {
-      const name = normalize(exame.nome)
+      const name = normalize(`${exame.nome} ${exame.nome_usual}`)
       return (!mentioned.length || mentioned.includes(exame.modalidade)) &&
         compatible(name, "contraste", contrast) && compatible(name, "sedacao", sedation) &&
         (!child || /pediatric|crianca/.test(name)) && (!adult || !/pediatric|crianca/.test(name))

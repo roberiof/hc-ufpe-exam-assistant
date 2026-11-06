@@ -1,6 +1,6 @@
 # Avaliação inicial do assistente UDI
 
-Modo: fallback. Commit: c5345dedaf0d574f1583f11cad25b0407e73f05e.
+Modo: fallback. Commit: 190ac1033862757b5cdd71113fc8ac5abfb89cdc.
 
 32 referências provisórias: 23 casos passaram pelas verificações objetivas e 9 exigem revisão. Nenhum caso está homologado clinicamente por esta execução.
 
@@ -16,12 +16,12 @@ As verificações textuais são uma triagem: podem produzir falsos positivos ou 
 | GT-06 | Verificações passaram | — |
 | GT-07 | Verificações passaram | — |
 | GT-08 | Verificações passaram | — |
-| GT-09 | Revisar | Não reproduz suspensão genérica de antidiabéticos |
+| GT-09 | Revisar | Exceção abdômen 8h |
 | GT-10 | Verificações passaram | — |
 | GT-11 | Revisar | Ausência de preparo registrada; Solicitação |
 | GT-12 | Verificações passaram | — |
 | GT-13 | Revisar | Decisão dos técnicos |
-| GT-14 | Revisar | Encaminha decisão individual ao profissional; Fontes correspondem ao preparo rx_histerossalpingografia |
+| GT-14 | Revisar | Condição DIU; Fontes correspondem ao preparo rx_histerossalpingografia |
 | GT-15 | Verificações passaram | — |
 | GT-16 | Verificações passaram | — |
 | GT-17 | Revisar | Indica necessidade de confirmar cronograma incompleto; Fontes correspondem ao preparo rx_enema_opaco_adulto |

@@ -88,7 +88,7 @@ describe("ranking — consulta exata retorna a modalidade certa", () => {
   it("respeita contraste explicitamente negado", () => {
     const r = searchExames("Vou fazer tomografia de tórax sem contraste. Qual o jejum?", exames)
     expect(r.length).toBeGreaterThan(0)
-    expect(r.every(e => /SEM CONTRASTE/i.test(e.nome))).toBe(true)
+    expect(r.every(e => /sem contraste/.test(normalize(e.nome + " " + e.nome_usual)) && !/com contraste/.test(normalize(e.nome + " " + e.nome_usual)))).toBe(true)
   })
   it("não aplica variante adulta à pergunta pediátrica", () => {
     const r = searchExames("Minha criança vai fazer uretrocistografia. Qual antibiótico e dose devo dar?", exames)
