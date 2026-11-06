@@ -31,7 +31,8 @@ export function composeAnswer(message: string, candidates: Exame[], data: Prepar
   if (new Set(factSets.map(fs => fs.map(f => f.factId).sort().join(','))).size > 1) return {reply:'Encontrei variantes com informações diferentes. Qual delas consta no pedido?\n\n' + options + '\n\n' + contact,sources}
   const p = ps[0]
   if (!p) return null
-  if (matched.some(e => e.preparo_id === 'rm_contraste') && /jeju|prepar/.test(asked)) return {
+  const specificQuestion = /jeju|bexiga|antecedencia|quanto tempo.*cheg|com quanto tempo/.test(asked) && !/qual.*preparo|como.*prepar/.test(asked)
+  if (matched.some(e => e.preparo_id === 'rm_contraste') && (!specificQuestion || /jeju/.test(asked))) return {
     reply: 'O cadastro herdado contém orientações de jejum que dependem do tipo de ressonância, mas a fonte dessas condições ainda não foi reconciliada. Não consigo confirmar o tempo de jejum aplicável ao seu exame. Confirme com o setor antes do exame, informando a região, o contraste e a sedação constantes no pedido.\n\n' + contact,
     sources,
   }
@@ -39,7 +40,6 @@ export function composeAnswer(message: string, candidates: Exame[], data: Prepar
     reply: 'O cadastro registra uma restrição para histerossalpingografia em pessoas que usam DIU. Isso precisa ser confirmado pela equipe do hospital; o chat não pode autorizar a realização do exame. Se usa DIU, informe isso ao setor antes do exame.\n\n' + contact,
     sources,
   }
-  const specificQuestion = /jeju|bexiga|antecedencia|quanto tempo.*cheg|com quanto tempo/.test(asked) && !/qual.*preparo|como.*prepar/.test(asked)
   const documented = !!p.fact_ids?.length
   let usedFacts = factSets[0] ?? []
   let sentences = documented ? usedFacts.map(f => f.text) : safeSentences(p.orientacoes)

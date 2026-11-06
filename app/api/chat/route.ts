@@ -3,7 +3,7 @@ import { createAnthropic } from "@ai-sdk/anthropic"
 import { generateText } from "ai"
 import examesData from "@/data/exames.json"
 import preparosData from "@/data/preparos.json"
-import { searchExames, normalize } from "@/lib/search"
+import { searchExames, normalize, examModalityChoices } from "@/lib/search"
 import { stemQuery } from "@/lib/stem"
 import {
   wantsAggregateCount,
@@ -229,7 +229,7 @@ export async function POST(req: Request) {
       return Response.json({ error: "Mensagem inválida." }, { status: 400 })
     }
 
-    if (asksMedicationDecision(message) || deterministicIntent(message)) {
+    if (asksMedicationDecision(message) || deterministicIntent(message) || (!wantsAggregateList(message) && examModalityChoices(conversationQuery(message, history), exames).length > 0)) {
       const result = generateMockResponse(message, profile, history)
       return Response.json({ reply: result.reply, sources: result.sources, mocked: true, reason: asksMedicationDecision(message) ? "medication-policy" : "request-policy" })
     }

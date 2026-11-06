@@ -171,6 +171,32 @@ const identityTerms = [
   /\btransvaginal\b/, /\bhisterossalpingografia\b/, /\buretrocistografia\b/,
 ]
 
+const modalities: Array<[string, RegExp]> = [
+    ["tomografia_computadorizada", /\btomografia\b|\bangiotomografia\b|\btc\b/],
+    ["ressonancia_magnetica", /\bressonancia\b|\bracionancia\b|\bresonancia\b|\bangioressonancia\b|\brm\b/],
+    ["ultrassonografia", /\bultrassom\b|\bultrassonografia\b|\busg\b|\bus\b/],
+    ["radiologia_convencional", /\braio\s*x\b|\brx\b|\bradiografia\b|histerossalpingografia|uretrocistografia|enema opaco/],
+    ["mamografia", /\bmamografia\b/],
+    ["densitometria_ossea", /\bdensitometria\b/],
+    ["medicina_nuclear", /\bcintilografia\b|medicina nuclear/],
+  ]
+
+export function hasExplicitModality(query: string): boolean {
+  return modalities.some(([, re]) => re.test(identityText(query)))
+}
+
+/** Inspect candidates BEFORE top-3 ranking: ranking is not modality selection. */
+export function examModalityChoices(query: string, exames: Exame[]): string[] {
+  const q = identityText(examTargetQuery(query))
+  if (hasExplicitModality(q) || !identityTerms.some(term => term.test(q))) return []
+  const anatomicalOnly = q.replace(/\b(de|do|da)\b/g, '').trim()
+  if (!/\bexame\b|prepar|jeju|vou fazer/.test(q) && !identityTerms.some(term => anatomicalOnly.match(term)?.[0] === anatomicalOnly)) return []
+  if (exames.some(e => q === normalize(e.sigla) || new RegExp(`\\bcodigo(?: aghu)? (?:do exame )?${normalize(e.sigla)}\\b`).test(q))) return []
+  const candidates = searchExames(query, exames, { forClarification: true })
+  const found = [...new Set(candidates.map(e => e.modalidade))]
+  return found.length > 1 ? found : []
+}
+
 /**
  * Busca textual normalizada em sigla, nome, nome_usual e sinonimos.
  * Retorna até 3 candidatos ordenados por relevância.
@@ -182,7 +208,7 @@ const identityTerms = [
  * 3. fuzzy (Damerau-Levenshtein) como rede de segurança para typos (peso baixo,
  *    com teto), sem primeira-letra diferente e sem tokens curtos.
  */
-export function searchExames(query: string, exames: Exame[]): Exame[] {
+export function searchExames(query: string, exames: Exame[], options: { forClarification?: boolean } = {}): Exame[] {
   const q = identityText(examTargetQuery(query))
   if (!q) return []
   if (['contraste', 'sedacao'].some(attribute => q.includes(`com ${attribute}`) && q.includes(`sem ${attribute}`))) return []
@@ -198,15 +224,6 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
   const layTokens = expandLayTerms(tokens)
 
   const index = getIndex(exames)
-  const modalities: Array<[string, RegExp]> = [
-    ["tomografia_computadorizada", /\btomografia\b|\bangiotomografia\b|\btc\b/],
-    ["ressonancia_magnetica", /\bressonancia\b|\bracionancia\b|\bresonancia\b|\bangioressonancia\b|\brm\b/],
-    ["ultrassonografia", /\bultrassom\b|\bultrassonografia\b|\busg\b|\bus\b/],
-    ["radiologia_convencional", /\braio\s*x\b|\brx\b|\bradiografia\b|histerossalpingografia|uretrocistografia|enema opaco/],
-    ["mamografia", /\bmamografia\b/],
-    ["densitometria_ossea", /\bdensitometria\b/],
-    ["medicina_nuclear", /\bcintilografia\b|medicina nuclear/],
-  ]
   const mentioned = modalities.filter(([, re]) => re.test(tokens.join(" "))).map(([mod]) => mod)
   // More than one explicit modality is ambiguous; do not silently choose one.
   if (mentioned.length > 1) return []
@@ -232,6 +249,11 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
       if (/\bsimples\b/.test(q) && /\bcontrastado\b/.test(name)) return false
       // Do not introduce a specialized procedure when the question asks for a general exam.
       const specialScopes = [
+        { inName: /\batm\b/, inQuery: /\batm\b|temporomandibular/ },
+        { inName: /ouvido|mastoide/, inQuery: /ouvido|mastoide/ },
+        { inName: /seios da face|ossos da face/, inQuery: /face|seios/ },
+        { inName: /orbita/, inQuery: /orbita/ },
+        { inName: /sela|hipofis/, inQuery: /sela|hipofis/ },
         { inName: /prostata/, inQuery: /prostata/ },
         { inName: /\brenal|\brenais/, inQuery: /\brenal|\brenais|\brins?\b/ },
         { inName: /obstetric/, inQuery: /obstetric/ },
@@ -257,8 +279,10 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
       ]
       if (!explicitCode && specialScopes.some(scope => scope.inName.test(name) && !scope.inQuery.test(q))) return false
       return (!mentioned.length || mentioned.includes(exame.modalidade)) &&
-        compatible(name, "contraste", contrast) && (compatible(name, "sedacao", sedation) || (administrativeOnly && !/\b(com|sem) sedacao\b/.test(name))) &&
-        (!child || /pediatric|crianca/.test(name)) && (!adult || !/pediatric|crianca/.test(name))
+        (options.forClarification || (
+          compatible(name, "contraste", contrast) && (compatible(name, "sedacao", sedation) || (administrativeOnly && !/\b(com|sem) sedacao\b/.test(name))) &&
+          (!child || /pediatric|crianca/.test(name)) && (!adult || !/pediatric|crianca/.test(name))
+        ))
     })
     .map(({ exame, sigla, haystack, hayTokens }) => {
       let score = 0
@@ -298,6 +322,7 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
     .filter((s) => s.score > 0 && (tokens.length > 0 || s.score >= W_Q_CONTAINS_FIELD))
     .sort((a, b) => b.score - a.score)
 
+  if (options.forClarification) return scored.map(s => s.exame)
   const best = scored[0]?.score ?? 0
   return scored.filter(s => s.score >= best - 2).slice(0, 3).map((s) => s.exame)
 }
