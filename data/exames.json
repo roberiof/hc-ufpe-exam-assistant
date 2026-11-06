@@ -3675,7 +3675,12 @@
     "nome_usual": "BIOPSIA DE PROSTATA GUIADA POR ULTRASSONOGRAFIA",
     "sinonimos": [],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_pelvica_vias_urinarias"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "BPUSS",
@@ -3765,7 +3770,12 @@
       "DOPPLER AORTA ABDOMINAL E VEIAS ILÍACAS E FEMURAIS"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_abdômen"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "USAAM",
@@ -3785,7 +3795,17 @@
       "USG ABDOMEN SUPERIOR"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_abdômen"
+    "preparo_id": "us_abdômen",
+    "association_review": {
+      "preparo_id": "us_abdômen",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 30–35"
+      }
+    }
   },
   {
     "sigla": "USABT",
@@ -3795,7 +3815,17 @@
       "USG ABDOMEN TOTAL"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_abdômen"
+    "preparo_id": "us_abdômen",
+    "association_review": {
+      "preparo_id": "us_abdômen",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 30–35"
+      }
+    }
   },
   {
     "sigla": "USACD",
@@ -3970,10 +4000,26 @@
     "nome": "APARELHO URINÁRIO",
     "nome_usual": "ULTRASSONOGRAFIA APARELHO URINARIO",
     "sinonimos": [
-      "USG APARELHO URINÁRIO"
+      "USG APARELHO URINÁRIO",
+      "ULTRASSONOGRAFIA DE VIAS URINÁRIAS",
+      "ULTRASSOM DE VIAS URINÁRIAS"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_pelvica_vias_urinarias"
+    "preparo_id": "us_pelvica_vias_urinarias",
+    "association_review": {
+      "preparo_id": "us_pelvica_vias_urinarias",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 30–35"
+      },
+      "search_aliases": [
+        "ULTRASSONOGRAFIA DE VIAS URINÁRIAS",
+        "ULTRASSOM DE VIAS URINÁRIAS"
+      ]
+    }
   },
   {
     "sigla": "USAQD",
@@ -4003,7 +4049,17 @@
       "DOPPLER SISTEMA RENAL"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_pendente"
+    "preparo_id": "us_doppler_arterias_renais",
+    "association_review": {
+      "preparo_id": "us_doppler_arterias_renais",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 24–25"
+      }
+    }
   },
   {
     "sigla": "USASP",
@@ -4061,7 +4117,12 @@
       "BIÓPSIA ORIENTADA POR USG - RENAL"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_pelvica_vias_urinarias"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "USBI2",
@@ -4111,7 +4172,12 @@
       "PUNÇÃO ABDOMINAL ORIENTADA POR USG"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_abdômen"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "USBIO",
@@ -4152,7 +4218,12 @@
       "DOPPLER ABDOMINAL"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_abdômen"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "USCER",
@@ -4226,7 +4297,17 @@
       "USG PÉLVICA GINECOLÓGICA"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_pelvica_vias_urinarias"
+    "preparo_id": "us_pelvica_vias_urinarias",
+    "association_review": {
+      "preparo_id": "us_pelvica_vias_urinarias",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 30–35"
+      }
+    }
   },
   {
     "sigla": "USGJD",
@@ -4242,7 +4323,12 @@
     "nome_usual": "ULTRASSONOGRAFIA DE ABDOMEN TOTAL PRE-TRANSPLANTE",
     "sinonimos": [],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_abdômen"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "USGPA",
@@ -4250,7 +4336,12 @@
     "nome_usual": "ULTRASSONOGRAFIA PAREDE ABDOMINAL",
     "sinonimos": [],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_abdômen"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "USGRI",
@@ -4274,7 +4365,17 @@
     "nome_usual": "ULTRASSONOGRAFIA ECO PELVICA ABDOMINAL (HOMENS)",
     "sinonimos": [],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_pelvica_vias_urinarias"
+    "preparo_id": "us_pelvica_vias_urinarias",
+    "association_review": {
+      "preparo_id": "us_pelvica_vias_urinarias",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 30–35"
+      }
+    }
   },
   {
     "sigla": "USIDA",
@@ -4432,7 +4533,12 @@
       "USG PRÓSTATA VIA ABDOMINAL"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_pelvica_vias_urinarias"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "USPT",
@@ -4450,7 +4556,12 @@
       "USG TRANSVAGINAL"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_pelvica_vias_urinarias"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "USRET",
@@ -4572,7 +4683,12 @@
     "nome_usual": "USS REGULAÇÃO VIAS URINÁRIAS",
     "sinonimos": [],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_pelvica_vias_urinarias"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "USSUR",
@@ -4600,7 +4716,12 @@
       "DOPPLER TRANSVAGINAL"
     ],
     "modalidade": "ultrassonografia",
-    "preparo_id": "us_pelvica_vias_urinarias"
+    "preparo_id": "us_pendente",
+    "association_review": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    }
   },
   {
     "sigla": "USTDO",
@@ -6380,7 +6501,12 @@
     "nome_usual": "MAMOGRAFIA PARA AVALIAÇÃO DE MICROCALCIFICAÇÃO EM PEÇA CIRÚRGICA",
     "sinonimos": [],
     "modalidade": "mamografia",
-    "preparo_id": "mamografia"
+    "preparo_id": "mamografia_pendente",
+    "association_review": {
+      "preparo_id": "mamografia_pendente",
+      "status": "needs-review",
+      "reason": "Procedimento em peça cirúrgica; não aplicar preparo de paciente sem fonte específica."
+    }
   },
   {
     "sigla": "MARAS",

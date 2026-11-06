@@ -387,6 +387,21 @@ function MessageBubble({ message }: { message: DisplayMessage }) {
       <div className="max-w-[88%] rounded-2xl rounded-bl-sm border border-border bg-card px-4 py-3 text-sm leading-relaxed text-card-foreground">
         <FormattedContent text={message.content} isUser={false} />
 
+        {hasSources && message.sources!.some(src => src.evidence?.length) && (
+          <details className="mt-3 rounded-lg border border-border p-3 text-xs">
+            <summary className="cursor-pointer font-medium">Informações e trechos de origem — validação UDI pendente</summary>
+            <p className="mt-2">Referências dos itens documentados. Contatos, documentos gerais e outras informações herdadas do cadastro ainda não têm proveniência completa reconciliada.</p>
+            {Array.from(new Map(message.sources!.flatMap(src => src.evidence ?? []).map(fact => [fact.factId, fact])).values()).map(fact => (
+              <div key={fact.factId} className="mt-3 border-t border-border pt-2">
+                <p className="font-medium">{fact.text}</p>
+                <p>{fact.sourceTitle} — {fact.locator}</p>
+                <blockquote className="mt-1 border-l-2 border-border pl-2">{fact.quote}</blockquote>
+                <p className="mt-1">Trecho localizado; protocolo ainda não homologado pela UDI.</p>
+              </div>
+            ))}
+          </details>
+        )}
+
         {hasSources && (
           <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-2.5">
             <span className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.14em] text-steel">

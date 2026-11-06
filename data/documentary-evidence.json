@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "sources": {
+    "orientacoes-exames": {
+      "title": "Orientações exames.docx",
+      "sha256": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+      "origin": "Documento recebido do projeto; arquivo original preservado localmente",
+      "clinicalApproval": "not-demonstrated"
+    }
+  },
+  "facts": [
+    {
+      "id": "us-abdomen-fasting",
+      "text": "Jejum de 4 a 6h.",
+      "topic": "fasting",
+      "appliesTo": [
+        "USABT",
+        "USABD"
+      ],
+      "locator": "parágrafos 30–31",
+      "quote": "EXAMES: Abdômen total, Abdômen superior, Biopsia hepática / Jejum de 4 a 6h",
+      "sourceId": "orientacoes-exames",
+      "validation": "pending-udi",
+      "documentaryReview": "checked-2026-11-06",
+      "modality": "ultrassonografia"
+    },
+    {
+      "id": "us-full-abdomen-bladder",
+      "text": "Compareça com a bexiga cheia. No setor, você também receberá orientação sobre a ingestão de água.",
+      "topic": "bladder",
+      "appliesTo": [
+        "USABT",
+        "USAPU",
+        "USGIN",
+        "USHOM"
+      ],
+      "locator": "parágrafos 34–35",
+      "quote": "EXAMES: Vias urinárias, Abdômen total, Ultrassonografia pélvica abdominal / O paciente esteja com a bexiga cheia, no setor ele também será orientado a ingerir água para tal.",
+      "sourceId": "orientacoes-exames",
+      "validation": "pending-udi",
+      "documentaryReview": "checked-2026-11-06",
+      "modality": "ultrassonografia"
+    },
+    {
+      "id": "us-renal-doppler-fasting",
+      "text": "Manter jejum durante as 8h que antecedem o exame.",
+      "topic": "fasting",
+      "appliesTo": [
+        "USAR"
+      ],
+      "locator": "parágrafos 24–25",
+      "quote": "EXAME: Ultrassonografia com doppler de artérias renais / Manter jejum durante as 8h que antecedem o exame;",
+      "sourceId": "orientacoes-exames",
+      "validation": "pending-udi",
+      "documentaryReview": "checked-2026-11-06",
+      "modality": "ultrassonografia"
+    }
+  ],
+  "scope": "Informações não medicamentosas de ultrassom com trechos e aplicação explícita; não constitui protocolo completo homologado."
+}

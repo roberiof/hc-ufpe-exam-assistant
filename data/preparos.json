@@ -51,13 +51,21 @@
     },
     "us_abdômen": {
       "titulo": "Ultrassonografia de abdômen / abdômen total / superior",
-      "orientacoes": "Jejum de 4 a 6h. Para abdômen total: utilizar Luftal (simeticona) 40 gotas de 6 em 6 horas no dia anterior ao exame e na manhã do exame.",
-      "status": "ok"
+      "orientacoes": "Jejum de 4 a 6h. Para abdômen total: comparecer com a bexiga cheia; no setor, o paciente também será orientado a ingerir água para tal.",
+      "status": "parcial",
+      "fact_ids": [
+        "us-abdomen-fasting",
+        "us-full-abdomen-bladder"
+      ],
+      "observacoes": "Orientações extraídas dos parágrafos 30–35. O documento contém também orientação medicamentosa, não reproduzida automaticamente; confirmar o preparo completo com a UDI. A orientação de bexiga cheia aplica-se somente aos exames explicitamente citados, conforme os fatos estruturados."
     },
     "us_pelvica_vias_urinarias": {
       "titulo": "Ultrassonografia pélvica / vias urinárias",
       "orientacoes": "Comparecer com a bexiga cheia. No setor, o paciente também será orientado a ingerir água para tal.",
-      "status": "ok"
+      "status": "parcial",
+      "fact_ids": [
+        "us-full-abdomen-bladder"
+      ]
     },
     "us_obstetrica": {
       "titulo": "Ultrassonografia obstétrica",
@@ -141,6 +149,21 @@
       "orientacoes": "",
       "status": "pendente",
       "fallback": "Este é um exame de raio-X contrastado e o preparo específico ainda não está cadastrado em nossa base. Exames contrastados normalmente exigem preparo (jejum, medicações). NÃO presuma que o exame dispensa preparo. Por favor, confirme com o setor de Raio-X contrastado pelo telefone (81) 2126 3872 antes do dia do exame."
+    },
+    "us_doppler_arterias_renais": {
+      "titulo": "Ultrassonografia com Doppler de artérias renais",
+      "orientacoes": "Manter jejum durante as 8h que antecedem o exame.",
+      "status": "parcial",
+      "fact_ids": [
+        "us-renal-doppler-fasting"
+      ],
+      "observacoes": "O documento possui orientações adicionais alimentares e medicamentosas ainda não estruturadas; confirmar o preparo completo com a UDI."
+    },
+    "mamografia_pendente": {
+      "titulo": "Mamografia — associação a confirmar",
+      "orientacoes": "",
+      "status": "pendente",
+      "fallback": "Não há preparo documental associado a este procedimento específico. Confirme com o setor antes do exame."
     }
   }
 }
