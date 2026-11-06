@@ -12,7 +12,7 @@ it('corrige abdômen total com bexiga cheia e evidência por informação', () =
  const r=generateMockResponse('Vou fazer ultrassom de abdômen total. Qual o preparo?', 'patient')
  expect(r.reply).toContain('bexiga cheia')
  expect(r.reply).toContain('Jejum de 4 a 6h')
- expect(r.reply).toContain('validação da UDI pendente')
+ expect(r.reply).toContain('confirmadas pela equipe do hospital')
  const facts=r.sources.flatMap(s=>s.evidence??[])
  expect(facts.some(f=>f.factId==='us-full-abdomen-bladder' && f.locator==='parágrafos 34–35')).toBe(true)
  expect(facts.every(f=>f.validation==='pending-udi' && f.sourceHash.length===64)).toBe(true)
@@ -78,4 +78,13 @@ it('vias urinárias recupera o exame geral correto mesmo após retirar a associa
  expect(r.reply).toContain('bexiga cheia')
  expect(r.sources.every(s=>s.nome==='APARELHO URINÁRIO')).toBe(true)
  expect(r.sources.flatMap(s=>s.evidence??[]).some(f=>f.factId==='us-full-abdomen-bladder')).toBe(true)
+})
+
+it('muda a apresentação por perfil sem eliminar a evidência ou inventar validação', () => {
+ const patient=generateMockResponse('Vou fazer ultrassom de abdômen total. Qual o preparo?', 'patient')
+ const professional=generateMockResponse('Vou fazer ultrassom de abdômen total. Qual o preparo?', 'professional')
+ expect(patient.reply).not.toMatch(/parágrafos|SHA-256|validação da UDI pendente/)
+ expect(patient.reply).toContain('não representam o preparo completo')
+ expect(professional.reply).toContain('validação da UDI pendente')
+ expect(patient.sources.flatMap(s=>s.evidence??[])).toEqual(professional.sources.flatMap(s=>s.evidence??[]))
 })
