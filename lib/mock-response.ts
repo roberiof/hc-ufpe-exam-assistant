@@ -1,3 +1,4 @@
+import { conversationQuery } from "./conversation-query"
 import { composeAnswer } from "./answer-composer"
 import examesData from "@/data/exames.json"
 import preparosData from "@/data/preparos.json"
@@ -75,15 +76,7 @@ function fluxoReply(): { reply: string; sources: Source[] } | null {
  */
 /** Resolve exame na mensagem; se follow-up sem exame, usa histórico recente. */
 function resolveExames(message: string, history: ChatMessage[]): Exame[] {
-  const direct = searchExames(message, exames)
-  if (direct.length > 0) return direct
-  const lastUser = history
-    .filter((m) => m.role === "user")
-    .slice(-3)
-    .map((m) => m.content)
-    .join(" ")
-  if (!lastUser) return []
-  return searchExames(`${lastUser} ${message}`, exames)
+  return searchExames(conversationQuery(message, history), exames)
 }
 
 function buildResponse(
@@ -100,7 +93,7 @@ function buildResponse(
       sources: matched.map(e => profile === "professional" ? { nome: e.nome, sigla: e.sigla } : { nome: e.nome }),
     }
   }
-  const intent = deterministicIntent(message)
+  const intent = deterministicIntent(message) ?? (deterministicIntent(conversationQuery(message, history)) === "clarify" ? "clarify" : undefined)
   if (intent === "count") {
     const filter = parseFilter(message)
     const count = exames.filter(e => (!filter.modalidade || e.modalidade === filter.modalidade) && (!filter.need || classifyPreparo(e, preparos) === filter.need)).length
@@ -134,7 +127,7 @@ function buildResponse(
     return { reply, sources: [] }
   }
 
-  const composed = composeAnswer(message, matched, preparos, profile)
+  const composed = composeAnswer(conversationQuery(message, history), matched, preparos, profile)
   if (composed) return fluxo ? { reply: composed.reply + "\n\n" + fluxo.reply, sources: [...composed.sources, ...fluxo.sources] } : composed
   return {reply: "Não consegui identificar uma orientação compatível. Confirme o nome completo do exame com a UDI.", sources: []}
 }

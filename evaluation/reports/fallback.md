@@ -1,6 +1,6 @@
 # Avaliação inicial do assistente UDI
 
-Modo: fallback. Commit: 16f112dfbc10d05b0533fe7a713a7237b7e66b6e.
+Modo: fallback. Commit: 190ac1033862757b5cdd71113fc8ac5abfb89cdc.
 
 32 referências provisórias: 23 casos passaram pelas verificações objetivas e 9 exigem revisão. Nenhum caso está homologado clinicamente por esta execução.
 

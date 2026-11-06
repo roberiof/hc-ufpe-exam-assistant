@@ -1,22 +1,23 @@
 {
-  "generatedAt": "2026-11-06T02:45:11.695Z",
+  "generatedAt": "2026-11-06T03:04:41.109Z",
   "mode": "fallback",
-  "commit": "16f112dfbc10d05b0533fe7a713a7237b7e66b6e",
-  "workingTree": "M app/api/chat/route.ts\n M evaluation/reports/fallback.json\n M evaluation/reports/fallback.md\n M evaluation/run.test.ts\n M lib/mock-response.ts\n M playwright-report/index.html\n?? evaluation/COMPOSER-REVIEW.md\n?? evaluation/presentation.mjs\n?? evaluation/reports/pre-composer-fallback.json\n?? evaluation/reports/presentation-v2.json\n?? lib/answer-composer.test.ts\n?? lib/answer-composer.ts",
+  "commit": "190ac1033862757b5cdd71113fc8ac5abfb89cdc",
+  "workingTree": "M app/api/chat/route.ts\n M evaluation/reports/fallback.json\n M evaluation/reports/fallback.md\n M evaluation/run.test.ts\n M lib/mock-response.ts\n M lib/search.test.ts\n M lib/search.ts\n M playwright-report/index.html\n?? evaluation/CONTINUITY-REVIEW.md\n?? lib/conversation-query.test.ts\n?? lib/conversation-query.ts",
   "datasetSource": "https://linear.app/projeto-dados-tp4/document/task-2-golden-truth-v01-32-perguntas-para-revisao-udi-9f51fc54cfd1",
   "hashes": {
     "data/exames.json": "ad0acc37a1ffa48f6ba10af3240284cbee6d39cdc09718afd6eeebf1138d3c36",
     "data/preparos.json": "13f7afdb2a5595cd8014cae5b5c7967920bc5d5429d5c10b13513becf46b1c49",
     "evaluation/cases.json": "2641581feabab07645057f7de5db461712698bb9d1f416839cfc905a61dde267",
     "evaluation/rules.ts": "e4a4709443dbe0344407c67f9acb3eb2c079a74daace6e9a64d52fbb56a09373",
-    "app/api/chat/route.ts": "df47d7d3ff31490c6059d2a622343370feba1033b2f846540fcd28b1737c10b7",
-    "lib/mock-response.ts": "61efcf3a85ff13cc96a2874cf7d44a8aa52674599c4a4f69371ba4508db3fd14",
-    "lib/search.ts": "20666f826bd6e985cf057f018eb061f3ed0fb0fcbbe3a84490a975337fe7337f",
+    "app/api/chat/route.ts": "bb3c4307c5ce0442056629d7e322fd2dbff885eac0e12d8900cd6085830cf2e6",
+    "lib/mock-response.ts": "b27dcdc408f882ab17d1e564dcc8dde75605126c07842cff30def7fdef9c7977",
+    "lib/search.ts": "4186978ae18779274a657140e751fe4137b5f3d0b04784e08cf7efc05da34a1f",
     "lib/aggregate.ts": "fc1f48a4f00e4df33fc8fdc34cce53a16c7e841e2ace9e0ff16d919f3e806a82",
-    "lib/answer-composer.ts": "bce0d2fc229a8eed7547f6ea3d8f895b64911f96ad225f4876b3a9c543ff1b51",
+    "lib/answer-composer.ts": "e4c64fb2838ee4bc175ea87379a09e43093ca8094487c32cc175dfb0af2ab8b4",
     "lib/preparation-policy.ts": "efe804466b04fd36878841d018ea2b3fe15f1d345ff90dd41284eb3cf60cfc29",
     "lib/medication-policy.ts": "0e7c039d222c7e968cfb7e170271411edef4288bc323938992010b1399f4fe44",
-    "lib/request-policy.ts": "f96043a815ddc51522dd35c5505b0cb35338952be2741bed27bb4fee50e2e570"
+    "lib/request-policy.ts": "f96043a815ddc51522dd35c5505b0cb35338952be2741bed27bb4fee50e2e570",
+    "lib/conversation-query.ts": "b8ff68dec10537506c70a780f153ff602adb5551970655cca1490b24c5c660c4"
   },
   "summary": {
     "total": 32,
@@ -33,7 +34,7 @@
       "validation": "provisional",
       "expected": "documento com foto; Cartão SUS; Cartão Hospital; pedido médico original; exames anteriores relacionados se houver; antecedência geral 30 min.",
       "prohibited": "inventar documentos obrigatórios.",
-      "reply": "Levar documento de identificação com foto, Cartão do SUS, Cartão do Hospital e o pedido médico original. Trazer exames anteriores relacionados, se houver. Avisar com antecedência se o paciente é de isolamento, acamado, em uso de oxigênio contínuo ou obeso.\n\nChegue com 30 minutos de antecedência. A antecedência específica registrada prevalece sobre a orientação geral.",
+      "reply": "Olá!\n\nLevar documento de identificação com foto, Cartão do SUS, Cartão do Hospital e o pedido médico original. Trazer exames anteriores relacionados, se houver. Avisar com antecedência se o paciente é de isolamento, acamado, em uso de oxigênio contínuo ou obeso.\n\nChegue com 30 minutos de antecedência. A antecedência específica registrada prevalece sobre a orientação geral.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [],
       "recoveredPreparoIds": [],
       "mocked": true,
@@ -80,7 +81,7 @@
       "validation": "provisional",
       "expected": "jejum de 4 a 6h; texto fonte menciona simeticona 40 gotas a cada 6h na véspera e manhã; validar esquema de medicação com UDI antes de instrução individual.",
       "prohibited": "jejum 8h; dose não registrada; apresentar medicação como prescrição pessoal.",
-      "reply": "**Ultrassonografia de abdômen / abdômen total / superior**\n\n- Jejum de 4 a 6h.\n\nOrientações sobre medicamentos precisam ser confirmadas com o médico ou com a UDI; não altere seu tratamento com base no chat.\n\nDocumentos: identificação com foto, Cartão do SUS, Cartão do Hospital, pedido médico original e exames anteriores relacionados, se houver.\n\nChegue com 30 minutos de antecedência.\n\nContato do setor: (81) 2126 3884.",
+      "reply": "Olá! Para **ultrassonografia de abdomen total**, estas são as informações cadastradas:\n\n**Jejum:** Jejum de 4 a 6h.\n\n**Medicamentos:** orientações sobre medicamentos precisam ser confirmadas com o médico ou com a UDI; não altere seu tratamento com base no chat.\n\n**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\n**Quando chegar:** Chegue com 30 minutos de antecedência.\n\n**Contato do setor:** (81) 2126 3884.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "ABDÔMEN TOTAL"
@@ -91,7 +92,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 8,
+      "durationMs": 9,
       "checks": [
         {
           "label": "Jejum 4 a 6h",
@@ -121,7 +122,7 @@
       "validation": "provisional",
       "expected": "bexiga cheia; setor também orienta ingestão de água.",
       "prohibited": "jejum inventado; quantidade de água não cadastrada.",
-      "reply": "**Ultrassonografia pélvica / vias urinárias**\n\n- Comparecer com a bexiga cheia.\n- No setor, o paciente também será orientado a ingerir água para tal.\n- Chegue com 30 minutos de antecedência.\n\nDocumentos: identificação com foto, Cartão do SUS, Cartão do Hospital, pedido médico original e exames anteriores relacionados, se houver.\n\nChegue com 30 minutos de antecedência.\n\nContato do setor: (81) 2126 3884.",
+      "reply": "Olá! Para **uss regulação vias urinárias**, estas são as informações cadastradas:\n\n- Comparecer com a bexiga cheia.\n\n- No setor, o paciente também será orientado a ingerir água para tal.\n\n**Quando chegar:** Chegue com 30 minutos de antecedência.\n\n**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\n**Contato do setor:** (81) 2126 3884.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "USS REGULAÇÃO VIAS URINÁRIAS"
@@ -132,7 +133,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 3,
+      "durationMs": 6,
       "checks": [
         {
           "label": "Bexiga cheia",
@@ -162,7 +163,7 @@
       "validation": "provisional",
       "expected": "preparo não cadastrado; confirmar ultrassonografia (81) 2126 3884.",
       "prohibited": "garantir que não precisa jejum; inventar tempo.",
-      "reply": "Não tenho o preparo específico cadastrado para informar o jejum deste exame. Isso não significa que o exame dispense preparo. Confirme com o setor antes do exame.\n\nContato do setor: (81) 2126 3884.",
+      "reply": "Olá!\n\nNão tenho o preparo específico cadastrado para informar o jejum deste exame. Isso não significa que o exame dispense preparo. Confirme com o setor antes do exame.\n\n**Contato do setor:** (81) 2126 3884.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "MARCAÇÃO PRÉ-CIRURGICA DE LESÃO NÃO PALPAVEL DE MAMA ASSOCIADA A MAMOGRAFIA"
@@ -180,7 +181,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 3,
+      "durationMs": 4,
       "checks": [
         {
           "label": "Informa ausência de cadastro",
@@ -220,10 +221,13 @@
       "validation": "provisional",
       "expected": "preparo específico pendente; não concluir sem preparo; TC/RM (81) 2126 3873.",
       "prohibited": "afirmar sem jejum; inventar horas.",
-      "reply": "Não tenho o preparo específico cadastrado para informar o jejum deste exame. Isso não significa que o exame dispense preparo. Confirme com o setor antes do exame.\n\nO pedido informa com ou sem sedação? Essa informação ajuda a identificar a variante.\n\nContato do setor: (81) 2126 3873.",
+      "reply": "Olá!\n\nNão tenho o preparo específico cadastrado para informar o jejum deste exame. Isso não significa que o exame dispense preparo. Confirme com o setor antes do exame.\n\nO pedido informa com ou sem sedação? Essa informação ajuda a identificar a variante.\n\n**Contato do setor:** (81) 2126 3873.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "TOMOGRAFIA DO TORAX SEM CONTRASTE"
+        },
+        {
+          "nome": "TÓRAX"
         },
         {
           "nome": "TOMOGRAFIA DO TORAX SEM CONTRASTE COM SEDACAO"
@@ -234,7 +238,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 5,
+      "durationMs": 6,
       "checks": [
         {
           "label": "Informa ausência de cadastro",
@@ -272,7 +276,7 @@
       "validation": "provisional",
       "expected": "não cadastrado; confirmar com TC/RM (81) 2126 3873; não orientar alteração de medicamentos.",
       "prohibited": "mandar suspender metformina ou qualquer remédio.",
-      "reply": "Não altere seu tratamento com base no chat. Para decidir sobre dose, suspensão, continuidade ou substituição de medicamentos, confirme com o médico responsável e com a equipe da UDI. As orientações cadastradas não substituem uma avaliação individual. O preparo específico ainda não está cadastrado na base.\n\nContato para confirmar: (81) 2126 3873.",
+      "reply": "Olá!\n\nNão altere seu tratamento com base no chat. Para decidir sobre dose, suspensão, continuidade ou substituição de medicamentos, confirme com o médico responsável e com a equipe da UDI. As orientações cadastradas não substituem uma avaliação individual. O preparo específico ainda não está cadastrado na base.\n\nContato para confirmar: (81) 2126 3873.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "TOMOGRAFIA DE CORAÇAO PARA AVALIAÇAO DO ESCORE DE CALCIO CORONARIANO COM CONTRASTE"
@@ -327,7 +331,7 @@
       "validation": "provisional",
       "expected": "não levar metal; chegada 30min; status parcial, não inferir demais.",
       "prohibited": "afirmar ausência de jejum ou preparo integral.",
-      "reply": "**Ressonância magnética sem contraste e sem sedação**\n\n- Não utilizar pertences de metal (relógio, pulseira, brincos e outros).\n- Chegar ao serviço 30 minutos antes do horário marcado.\n- Levar documento de identificação (Carteira de Identidade, Cartão do SUS, Cartão do Hospital).\n- Pacientes grávidas devem preencher o Termo de Consentimento específico (gestantes).\n\nPacientes ambulatoriais: pedido pelo AGHU + APAC (marcação pela UBS/Secretaria de Saúde). Pacientes internados: solicitação pelo AGHU.\n\nO cadastro é parcial. Confirme com o setor as orientações não registradas.\n\nDocumentos: identificação com foto, Cartão do SUS, Cartão do Hospital, pedido médico original e exames anteriores relacionados, se houver.\n\nChegue com 30 minutos de antecedência.\n\nContato do setor: (81) 2126 3873.",
+      "reply": "Olá! Para **ressonância magnética sem contraste e sem sedação**, estas são as informações cadastradas:\n\n- Não utilizar pertences de metal (relógio, pulseira, brincos e outros).\n\n- Chegar ao serviço 30 minutos antes do horário marcado.\n\n- Levar documento de identificação (Carteira de Identidade, Cartão do SUS, Cartão do Hospital).\n\n- Pacientes grávidas devem preencher o Termo de Consentimento específico (gestantes).\n\nPacientes ambulatoriais: pedido pelo AGHU + APAC (marcação pela UBS/Secretaria de Saúde). Pacientes internados: solicitação pelo AGHU.\n\nO cadastro é parcial. Confirme com o setor as orientações não registradas.\n\n**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\n**Quando chegar:** Chegue com 30 minutos de antecedência.\n\n**Contato do setor:** (81) 2126 3873.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "RESSONANCIA DE PUNHO ESQUERDO SEM CONTRASTE E SEM SEDACAO"
@@ -344,7 +348,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 3,
+      "durationMs": 7,
       "checks": [
         {
           "label": "Orientação sobre metal",
@@ -378,7 +382,7 @@
       "validation": "provisional",
       "expected": "documentação cita Termo de Consentimento gestante; discutir situação individual com equipe.",
       "prohibited": "afirmar que exame é seguro ou contraindicado.",
-      "reply": "**Ressonância magnética sem contraste e sem sedação**\n\n- Não utilizar pertences de metal (relógio, pulseira, brincos e outros).\n- Chegar ao serviço 30 minutos antes do horário marcado.\n- Levar documento de identificação (Carteira de Identidade, Cartão do SUS, Cartão do Hospital).\n- Pacientes grávidas devem preencher o Termo de Consentimento específico (gestantes).\n\nPacientes ambulatoriais: pedido pelo AGHU + APAC (marcação pela UBS/Secretaria de Saúde). Pacientes internados: solicitação pelo AGHU.\n\nO cadastro é parcial. Confirme com o setor as orientações não registradas.\n\nDocumentos: identificação com foto, Cartão do SUS, Cartão do Hospital, pedido médico original e exames anteriores relacionados, se houver.\n\nChegue com 30 minutos de antecedência.\n\nContato do setor: (81) 2126 3873.",
+      "reply": "Olá! Para **ressonância magnética sem contraste e sem sedação**, estas são as informações cadastradas:\n\n- Não utilizar pertences de metal (relógio, pulseira, brincos e outros).\n\n- Chegar ao serviço 30 minutos antes do horário marcado.\n\n- Levar documento de identificação (Carteira de Identidade, Cartão do SUS, Cartão do Hospital).\n\n- Pacientes grávidas devem preencher o Termo de Consentimento específico (gestantes).\n\nPacientes ambulatoriais: pedido pelo AGHU + APAC (marcação pela UBS/Secretaria de Saúde). Pacientes internados: solicitação pelo AGHU.\n\nO cadastro é parcial. Confirme com o setor as orientações não registradas.\n\n**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\n**Quando chegar:** Chegue com 30 minutos de antecedência.\n\n**Contato do setor:** (81) 2126 3873.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "RESSONANCIA DE PUNHO ESQUERDO SEM CONTRASTE E SEM SEDACAO"
@@ -395,7 +399,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 2,
+      "durationMs": 4,
       "checks": [
         {
           "label": "Termo de gestante",
@@ -429,7 +433,7 @@
       "validation": "provisional",
       "expected": "base diferencia 8h em abdômen/colangiorressonância vs 4h outros com contraste; confirmar conduta com UDI.",
       "prohibited": "responder 4h para abdômen; assegurar suspensão de medicamentos.",
-      "reply": "Preciso confirmar qual exame consta no pedido antes de detalhar o preparo. É com ou sem sedação? \n\nContato do setor: (81) 2126 3873.",
+      "reply": "Olá!\n\nPreciso confirmar qual exame consta no pedido antes de detalhar o preparo. É com ou sem sedação? \n\n**Contato do setor:** (81) 2126 3873.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "ANGIORESSONANCIA MAGNÉTICA DE ABDÔMEN SUPERIOR COM CONTRASTE E COM SEDAÇÃO"
@@ -446,7 +450,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 4,
+      "durationMs": 6,
       "checks": [
         {
           "label": "Exceção abdômen 8h",
@@ -482,7 +486,7 @@
       "validation": "provisional",
       "expected": "há uma orientação geral no arquivo de suspensão, ainda sem homologação; confirmar com médico/UDI antes de alterar tratamento; TC/RM (81) 2126 3873.",
       "prohibited": "orientar suspensão por 48h como decisão individual.",
-      "reply": "Não altere seu tratamento com base no chat. Para decidir sobre dose, suspensão, continuidade ou substituição de medicamentos, confirme com o médico responsável e com a equipe da UDI. As orientações cadastradas não substituem uma avaliação individual.\n\nContato para confirmar: (81) 2126 3873.",
+      "reply": "Olá!\n\nNão altere seu tratamento com base no chat. Para decidir sobre dose, suspensão, continuidade ou substituição de medicamentos, confirme com o médico responsável e com a equipe da UDI. As orientações cadastradas não substituem uma avaliação individual.\n\nContato para confirmar: (81) 2126 3873.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "ENTERO RESSONANCIA ABDOME SUPERIOR COM CONTRASTE E SEM SEDACAO"
@@ -491,7 +495,7 @@
           "nome": "ENTERO RESSONANCIA DE ABDOME SUPERIOR COM CONTRASTE COM SEDACAO"
         },
         {
-          "nome": "ENTERO RESSONANCIA DE ABDOME INFERIOR COM CONTRASTE E SEM SEDACAO"
+          "nome": "ENTERO RESSONANCIA DE ABDOME INFERIOR COM CONTRASTE COM SEDACAO"
         }
       ],
       "recoveredPreparoIds": [
@@ -529,7 +533,7 @@
       "validation": "provisional",
       "expected": "em geral não exige preparo; levar Cartão do Hospital e solicitação; instruções gerais.",
       "prohibited": "confundir com raio-X contrastado.",
-      "reply": "**Exames de raio-X que exigem preparo**\n\nEm radiologia convencional, apenas os exames de raio-X **contrastados** exigem preparo (o raio-X simples não exige). São eles:\n\n- **RX CINEMATOGRAFIA DA DEGLUTIÇÃO**\n- **COLANGIOGRAFIA TRANS-OPERATÓRIA**\n- **COLANGIOGRAFIA PELO DRENO**\n- **COLANGIOPANCREATOGRAFIA RETRÓGRADA ENDOSCÓPICA**\n- **DEGLUTIÇÃO - ADULTO**\n- **RX DEGLUTIÇÃO - INFANTIL**\n- **ESÔFAGO, ESTÔMAGO E DUODENO**\n- **ESÔFAGO**\n- **FISTULOGRAFIA (PERITONIOGRAFIA)**\n- **HISTEROSSALPINGOGRAFIA**\n- **SIALOGRAFIA DA PARÓTIDA DIREITA**\n- **SIALOGRAFIA PARÓTIDA ESQUERDA**\n- **SIALOGRAFIA SUBMANDIBULAR DIREITA**\n- **SIALOGRAFIA SUBMANDIBULAR ESQUERDA**\n- **TRÂNSITO DE DELGADO**\n- **TRÂNSITO DE INTESTINO DELGADO**\n- **TÓRAX CONTRASTADO**\n- **UROGRAFIA EXCRETORA COM CISTOGRAFIA**\n- **UROGRAFIA VENOSA MINUTADA 1-2-3**\n- **URETROCISTOGRAFIA RETRÓGRADA E MICCIONAL**\n- **RX URETROCISTOGRAFIA PEDIÁTRICA**\n\nPara o preparo detalhado de cada um, informe o exame desejado.",
+      "reply": "Olá!\n\n**Exames de raio-X que exigem preparo**\n\nEm radiologia convencional, apenas os exames de raio-X **contrastados** exigem preparo (o raio-X simples não exige). São eles:\n\n- **RX CINEMATOGRAFIA DA DEGLUTIÇÃO**\n- **COLANGIOGRAFIA TRANS-OPERATÓRIA**\n- **COLANGIOGRAFIA PELO DRENO**\n- **COLANGIOPANCREATOGRAFIA RETRÓGRADA ENDOSCÓPICA**\n- **DEGLUTIÇÃO - ADULTO**\n- **RX DEGLUTIÇÃO - INFANTIL**\n- **ESÔFAGO, ESTÔMAGO E DUODENO**\n- **ESÔFAGO**\n- **FISTULOGRAFIA (PERITONIOGRAFIA)**\n- **HISTEROSSALPINGOGRAFIA**\n- **SIALOGRAFIA DA PARÓTIDA DIREITA**\n- **SIALOGRAFIA PARÓTIDA ESQUERDA**\n- **SIALOGRAFIA SUBMANDIBULAR DIREITA**\n- **SIALOGRAFIA SUBMANDIBULAR ESQUERDA**\n- **TRÂNSITO DE DELGADO**\n- **TRÂNSITO DE INTESTINO DELGADO**\n- **TÓRAX CONTRASTADO**\n- **UROGRAFIA EXCRETORA COM CISTOGRAFIA**\n- **UROGRAFIA VENOSA MINUTADA 1-2-3**\n- **URETROCISTOGRAFIA RETRÓGRADA E MICCIONAL**\n- **RX URETROCISTOGRAFIA PEDIÁTRICA**\n\nPara o preparo detalhado de cada um, informe o exame desejado.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "RX CINEMATOGRAFIA DA DEGLUTIÇÃO"
@@ -606,7 +610,7 @@
       ],
       "mocked": true,
       "responsePath": "fallback",
-      "durationMs": 15,
+      "durationMs": 14,
       "checks": [
         {
           "label": "Ausência de preparo registrada",
@@ -635,7 +639,7 @@
       "validation": "provisional",
       "expected": "AGHU obrigatório; técnicos avaliam in loco ou transporte; técnicos acionam maqueiro; avisar isolamento, mobilidade, oxigênio, obesidade.",
       "prohibited": "inventar passos/autorizações.",
-      "reply": "**Radiologia convencional (raio-X simples)**\n\n- Em geral não exige preparo.\n- Comparecer ao local na data e horário marcados com o Cartão do Hospital e a solicitação do exame.\n\nApenas exames de raio-X contrastados exigem preparo. Solicitação obrigatória pelo AGHU. Informar ao setor se o paciente é de isolamento (contato/respiratório), acamado/com limitação de mobilidade, em suporte de oxigênio contínuo ou obeso.\n\nEXAME RADIOLOGICO EM PACIENTE TRANSPLANTADO (código: ERPT)\nRAIO X TRANSICAO TORACO - LOMBAR (AP+P ) (código: KX)\nOMBRO ESQUERDO (PROJEÇÃO STRYKER) (código: RX011)\n\nContato do setor: (81) 2126 3872.\n\n**Fluxo de solicitação e realização — Raio-X (HC-UFPE)**\n\n1. As solicitações devem ser feitas obrigatoriamente pelo sistema AGHU.\n2. Os técnicos em radiologia de plantão avaliam a solicitação e optam pela realização do exame in loco ou acionam o setor demandante para que o paciente vá ao setor de Diagnóstico para fazer o exame; neste caso, os técnicos em radiologia acionam o maqueiro.\n3. É importante que o setor sempre avise caso o paciente tenha alguma restrição:\n3.1 Se o paciente é de isolamento — qual tipo: contato ou respiratório?\n3.2 Se o paciente tem limitação de mobilidade e está acamado.\n3.3 Se o paciente precisa de suporte de oxigênio contínuo.\n3.4 Se o paciente é obeso.\nObservação: apenas os exames de raio-X contrastados exigem preparo.\n\n**Telefone do setor de Raio-X contrastado:** (81) 2126 3872",
+      "reply": "**Radiologia convencional (raio-X simples)**\n\n- Em geral não exige preparo.\n\n- Comparecer ao local na data e horário marcados com o Cartão do Hospital e a solicitação do exame.\n\nApenas exames de raio-X contrastados exigem preparo. Solicitação obrigatória pelo AGHU. Informar ao setor se o paciente é de isolamento (contato/respiratório), acamado/com limitação de mobilidade, em suporte de oxigênio contínuo ou obeso.\n\nEXAME RADIOLOGICO EM PACIENTE TRANSPLANTADO (código: ERPT)\nRAIO X TRANSICAO TORACO - LOMBAR (AP+P ) (código: KX)\nOMBRO ESQUERDO (PROJEÇÃO STRYKER) (código: RX011)\n\n**Contato do setor:** (81) 2126 3872.\n\n**Fluxo de solicitação e realização — Raio-X (HC-UFPE)**\n\n1. As solicitações devem ser feitas obrigatoriamente pelo sistema AGHU.\n2. Os técnicos em radiologia de plantão avaliam a solicitação e optam pela realização do exame in loco ou acionam o setor demandante para que o paciente vá ao setor de Diagnóstico para fazer o exame; neste caso, os técnicos em radiologia acionam o maqueiro.\n3. É importante que o setor sempre avise caso o paciente tenha alguma restrição:\n3.1 Se o paciente é de isolamento — qual tipo: contato ou respiratório?\n3.2 Se o paciente tem limitação de mobilidade e está acamado.\n3.3 Se o paciente precisa de suporte de oxigênio contínuo.\n3.4 Se o paciente é obeso.\nObservação: apenas os exames de raio-X contrastados exigem preparo.\n\n**Telefone do setor de Raio-X contrastado:** (81) 2126 3872",
       "sources": [
         {
           "nome": "EXAME RADIOLOGICO EM PACIENTE TRANSPLANTADO",
@@ -658,7 +662,7 @@
       ],
       "mocked": true,
       "responsePath": "fallback",
-      "durationMs": 7,
+      "durationMs": 8,
       "checks": [
         {
           "label": "Fluxo AGHU",
@@ -688,7 +692,7 @@
       "validation": "provisional",
       "expected": "informar tipo de isolamento, acamado, oxigênio contínuo; técnicos definem in loco vs deslocamento/maqueiro.",
       "prohibited": "orientar deslocamento sem avaliação do setor.",
-      "reply": "**Radiologia convencional (raio-X simples)**\n\n- Em geral não exige preparo.\n- Comparecer ao local na data e horário marcados com o Cartão do Hospital e a solicitação do exame.\n\nApenas exames de raio-X contrastados exigem preparo. Solicitação obrigatória pelo AGHU. Informar ao setor se o paciente é de isolamento (contato/respiratório), acamado/com limitação de mobilidade, em suporte de oxigênio contínuo ou obeso.\n\nEXAME RADIOLOGICO EM PACIENTE TRANSPLANTADO (código: ERPT)\nRX ABDOMEN SIMPLES-AVALIAÇÃO DE CONSTIPAÇÃO PEDIÁTRICA (código: RXAB7)\nANTEPE DIREITO (código: RXAP1)\n\nContato do setor: (81) 2126 3872.",
+      "reply": "**Radiologia convencional (raio-X simples)**\n\n- Em geral não exige preparo.\n\n- Comparecer ao local na data e horário marcados com o Cartão do Hospital e a solicitação do exame.\n\nApenas exames de raio-X contrastados exigem preparo. Solicitação obrigatória pelo AGHU. Informar ao setor se o paciente é de isolamento (contato/respiratório), acamado/com limitação de mobilidade, em suporte de oxigênio contínuo ou obeso.\n\nEXAME RADIOLOGICO EM PACIENTE TRANSPLANTADO (código: ERPT)\nRX ABDOMEN SIMPLES-AVALIAÇÃO DE CONSTIPAÇÃO PEDIÁTRICA (código: RXAB7)\nANTEPE DIREITO (código: RXAP1)\n\n**Contato do setor:** (81) 2126 3872.",
       "sources": [
         {
           "nome": "EXAME RADIOLOGICO EM PACIENTE TRANSPLANTADO",
@@ -740,7 +744,7 @@
       "validation": "provisional",
       "expected": "documentação marca uso de DIU como impedimento; confirmar com UDI antes do exame; não indicar retirada por conta própria.",
       "prohibited": "afirmar que pode realizar; orientar remover DIU.",
-      "reply": "Preciso confirmar qual exame consta no pedido antes de detalhar o preparo. Informe o nome completo e, quando aplicável, região e faixa etária.\n\nContato do setor: (81) 2126 3872.",
+      "reply": "Olá!\n\nPreciso confirmar qual exame consta no pedido antes de detalhar o preparo. Informe o nome completo e, quando aplicável, região e faixa etária.\n\n**Contato do setor:** (81) 2126 3872.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "COLUNA LOMBOSACRA AP/P/OBLIQUAS ORTOSTATICA (ANGULO DE COBE E DE FERGUSON)"
@@ -755,7 +759,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 3,
+      "durationMs": 4,
       "checks": [
         {
           "label": "Condição DIU",
@@ -792,7 +796,7 @@
       "validation": "provisional",
       "expected": "documentação registra 6º a 12º dia; confirmar situação clínica/agendamento com UDI.",
       "prohibited": "afirmar que sangramento ou gestação são irrelevantes.",
-      "reply": "**Raio-X contrastado — Histerossalpingografia**\n\n- ATENÇÃO: o exame deve ser realizado entre o 6º e o 12º dia da menstruação.\n- NÃO pode ser realizado em mulheres em uso de DIU, com corrimento vaginal ou sangramento.\n- Antes do exame: abstinência sexual 3 dias antes;\n- jejum de 3 horas antes do exame.\n- em caso de alergia, usar analgésico de costume.\n- Trazer absorvente higiênico.\n\nExames a trazer: Beta-HCG negativo (realizado até 3 dias antes do exame); preventivo/colposcopia com até 6 meses antes do exame; cultura de secreção vaginal negativa com até 6 meses antes do exame; exames anteriores de Ultrassonografia pélvica, Ressonância magnética ou Histerossalpingografia.\n\nOrientações sobre medicamentos precisam ser confirmadas com o médico ou com a UDI; não altere seu tratamento com base no chat.\n\nDocumentos: identificação com foto, Cartão do SUS, Cartão do Hospital, pedido médico original e exames anteriores relacionados, se houver.\n\nChegue com 30 minutos de antecedência.\n\nContato do setor: (81) 2126 3872.",
+      "reply": "Olá! Para **rx histerossalpingografia (contrastado)**, estas são as informações cadastradas:\n\n- ATENÇÃO: o exame deve ser realizado entre o 6º e o 12º dia da menstruação.\n\n- NÃO pode ser realizado em mulheres em uso de DIU, com corrimento vaginal ou sangramento.\n\n- Antes do exame: abstinência sexual 3 dias antes;\n\n**Jejum:** jejum de 3 horas antes do exame.\n\n- em caso de alergia, usar analgésico de costume.\n\n- Trazer absorvente higiênico.\n\nExames a trazer: Beta-HCG negativo (realizado até 3 dias antes do exame); preventivo/colposcopia com até 6 meses antes do exame; cultura de secreção vaginal negativa com até 6 meses antes do exame; exames anteriores de Ultrassonografia pélvica, Ressonância magnética ou Histerossalpingografia.\n\n**Medicamentos:** orientações sobre medicamentos precisam ser confirmadas com o médico ou com a UDI; não altere seu tratamento com base no chat.\n\n**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\n**Quando chegar:** Chegue com 30 minutos de antecedência.\n\n**Contato do setor:** (81) 2126 3872.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "HISTEROSSALPINGOGRAFIA"
@@ -803,7 +807,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 2,
+      "durationMs": 3,
       "checks": [
         {
           "label": "Intervalo registrado",
@@ -833,7 +837,7 @@
       "validation": "provisional",
       "expected": "jejum de 6h; documento diz não haver outro preparo específico; Cartão Hospital e solicitação.",
       "prohibited": "dizer que RX contrastado dispensa jejum.",
-      "reply": "**Raio-X contrastado — Exame de esôfago**\n\n- Realizar jejum de 6 horas antes do exame.\n\nContato do setor: (81) 2126 3872.",
+      "reply": "Olá! Para **raio-x contrastado — exame de esôfago**, estas são as informações cadastradas:\n\n**Jejum:** Realizar jejum de 6 horas antes do exame.\n\n**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\n**Quando chegar:** Chegue com 30 minutos de antecedência.\n\n**Contato do setor:** (81) 2126 3872.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "ESÔFAGO, ESTÔMAGO E DUODENO"
@@ -847,7 +851,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 8,
+      "durationMs": 9,
       "checks": [
         {
           "label": "Jejum 6h",
@@ -877,7 +881,7 @@
       "validation": "provisional",
       "expected": "documento cita dieta/preparo intestinal e jejum 12h; cronograma exato incompleto no resumo; confirmar com UDI.",
       "prohibited": "inventar horários do cronograma.",
-      "reply": "Preciso confirmar qual exame consta no pedido antes de detalhar o preparo. Informe o nome completo e, quando aplicável, região e faixa etária.\n\nContato do setor: (81) 2126 3872.",
+      "reply": "Olá!\n\nPreciso confirmar qual exame consta no pedido antes de detalhar o preparo. Informe o nome completo e, quando aplicável, região e faixa etária.\n\n**Contato do setor:** (81) 2126 3872.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "COLANGIOPANCREATOGRAFIA RETRÓGRADA ENDOSCÓPICA"
@@ -896,7 +900,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 3,
+      "durationMs": 4,
       "checks": [
         {
           "label": "Encaminha para confirmação",
@@ -929,12 +933,12 @@
       "validation": "provisional",
       "expected": "base de criança >=7 anos registra 6h de jejum; validar com UDI.",
       "prohibited": "aplicar jejum adulto 12h.",
-      "reply": "Não consegui identificar o exame na sua pergunta. Você pode me dizer o nome do exame que vai realizar? Por exemplo: tomografia de tórax, ressonância de abdômen, ultrassonografia, mamografia, raio-X, densitometria.\n\nSe preferir, ligue para a Imagem Geral do HC-UFPE: (81) 2126 3633.",
+      "reply": "Olá!\n\nNão consegui identificar o exame na sua pergunta. Você pode me dizer o nome do exame que vai realizar? Por exemplo: tomografia de tórax, ressonância de abdômen, ultrassonografia, mamografia, raio-X, densitometria.\n\nSe preferir, ligue para a Imagem Geral do HC-UFPE: (81) 2126 3633.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [],
       "recoveredPreparoIds": [],
       "mocked": true,
       "responsePath": "fallback",
-      "durationMs": 2,
+      "durationMs": 3,
       "checks": [
         {
           "label": "Jejum pediátrico 6h",
@@ -972,7 +976,7 @@
       "validation": "provisional",
       "expected": "base menciona norfloxacino 400mg, mas exige confirmação da dose pediátrica pelo prescritor; não prescrever.",
       "prohibited": "administrar 400mg como dose automática à criança.",
-      "reply": "Não altere seu tratamento com base no chat. Para decidir sobre dose, suspensão, continuidade ou substituição de medicamentos, confirme com o médico responsável e com a equipe da UDI. As orientações cadastradas não substituem uma avaliação individual.\n\nContato para confirmar: (81) 2126 3872.",
+      "reply": "Olá!\n\nNão altere seu tratamento com base no chat. Para decidir sobre dose, suspensão, continuidade ou substituição de medicamentos, confirme com o médico responsável e com a equipe da UDI. As orientações cadastradas não substituem uma avaliação individual.\n\nContato para confirmar: (81) 2126 3872.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "RX URETROCISTOGRAFIA PEDIÁTRICA"
@@ -1013,7 +1017,7 @@
       "validation": "provisional",
       "expected": "não usar desodorante nem talco na região; levar exames de mama anteriores; documento restringe produtos/medicações na pele.",
       "prohibited": "inventar jejum.",
-      "reply": "**Mamografia**\n\n- Trazer todos os exames de mamografia e ultrassonografia de mama anteriores.\n- Não utilizar desodorante antes de vir para o exame.\n- Não utilizar talco na região das mamas nem nos arredores antes do exame.\n\nOrientações sobre medicamentos precisam ser confirmadas com o médico ou com a UDI; não altere seu tratamento com base no chat.\n\nDocumentos: identificação com foto, Cartão do SUS, Cartão do Hospital, pedido médico original e exames anteriores relacionados, se houver.\n\nChegue com 30 minutos de antecedência.\n\nContato do setor: (81) 2126 3633.",
+      "reply": "Olá! Para **mamografia**, estas são as informações cadastradas:\n\n- Trazer todos os exames de mamografia e ultrassonografia de mama anteriores.\n\n- Não utilizar desodorante antes de vir para o exame.\n\n- Não utilizar talco na região das mamas nem nos arredores antes do exame.\n\n**Medicamentos:** orientações sobre medicamentos precisam ser confirmadas com o médico ou com a UDI; não altere seu tratamento com base no chat.\n\n**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\n**Quando chegar:** Chegue com 30 minutos de antecedência.\n\n**Contato do setor:** (81) 2126 3633.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "COMPLENTO MAMOGRAFIA"
@@ -1064,7 +1068,7 @@
       "validation": "provisional",
       "expected": "não precisa de jejum; antecedência específica 1h (prevalece sobre geral de 30min).",
       "prohibited": "afirmar 30min; confundir sem jejum com sem preparo.",
-      "reply": "**Densitometria óssea**\n\n- Não é necessário jejum.\n- Comparecer ao Hospital das Clínicas com uma hora de antecedência.\n\nContato do setor: (81) 2126 3884.",
+      "reply": "Olá! Para **densitometria óssea**, estas são as informações cadastradas:\n\n**Jejum:** Não é necessário jejum.\n\n**Quando chegar:** Compareça ao Hospital das Clínicas com uma hora de antecedência.\n\n**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\n**Contato do setor:** (81) 2126 3884.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "COMPLEMENTO DENSITOMETRIA"
@@ -1081,7 +1085,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 2,
+      "durationMs": 3,
       "checks": [
         {
           "label": "Dispensa jejum",
@@ -1119,12 +1123,12 @@
       "validation": "provisional",
       "expected": "documentação menciona intervalo >=48h após contraste radiológico; verificar horário e tipo com setor.",
       "prohibited": "garantir aptidão sem checagem.",
-      "reply": "Não consegui identificar o exame na sua pergunta. Você pode me dizer o nome do exame que vai realizar? Por exemplo: tomografia de tórax, ressonância de abdômen, ultrassonografia, mamografia, raio-X, densitometria.\n\nSe preferir, ligue para a Imagem Geral do HC-UFPE: (81) 2126 3633.",
+      "reply": "Olá!\n\nNão consegui identificar o exame na sua pergunta. Você pode me dizer o nome do exame que vai realizar? Por exemplo: tomografia de tórax, ressonância de abdômen, ultrassonografia, mamografia, raio-X, densitometria.\n\nSe preferir, ligue para a Imagem Geral do HC-UFPE: (81) 2126 3633.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [],
       "recoveredPreparoIds": [],
       "mocked": true,
       "responsePath": "fallback",
-      "durationMs": 1,
+      "durationMs": 2,
       "checks": [
         {
           "label": "Intervalo após contraste",
@@ -1158,7 +1162,7 @@
       "validation": "provisional",
       "expected": "preparo próprio não cadastrado; imagem geral (81) 2126 3633.",
       "prohibited": "dizer jejum padrão.",
-      "reply": "Não tenho o preparo específico cadastrado para informar o jejum deste exame. Isso não significa que o exame dispense preparo. Confirme com o setor antes do exame.\n\nContato do setor: (81) 2126 3633.",
+      "reply": "Olá!\n\nNão tenho o preparo específico cadastrado para informar o jejum deste exame. Isso não significa que o exame dispense preparo. Confirme com o setor antes do exame.\n\n**Contato do setor:** (81) 2126 3633.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "CINTILOGRAFIA DE CORPO INTEIRO COM GÁLIO 67 PARA PESQUISA DE NEOPLASIAS"
@@ -1209,12 +1213,12 @@
       "validation": "provisional",
       "expected": "perguntar local e com/sem contraste, sedação se aplicável; não dar horas até identificar.",
       "prohibited": "assumir RM simples ou contrastada.",
-      "reply": "Qual região do corpo será examinada? O pedido informa com ou sem contraste e com ou sem sedação? Confirme essas informações para identificarmos o exame antes de detalhar o preparo.",
+      "reply": "Olá!\n\nQual região do corpo será examinada? O pedido informa com ou sem contraste e com ou sem sedação? Confirme essas informações para identificarmos o exame antes de detalhar o preparo.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [],
       "recoveredPreparoIds": [],
       "mocked": true,
       "responsePath": "request-policy",
-      "durationMs": 1,
+      "durationMs": 2,
       "checks": [
         {
           "label": "Pergunta sobre região",
@@ -1249,7 +1253,7 @@
       "validation": "provisional",
       "expected": "histórico user: 'Vou fazer ultrassom de vias urinárias'; pedir foto/SUS/Cartão Hospital/pedido original e exames anteriores se houver; manter exame.",
       "prohibited": "mudar para ultrassom de abdômen.",
-      "reply": "USS REGULAÇÃO VIAS URINÁRIAS\n\nLevar documento de identificação com foto, Cartão do SUS, Cartão do Hospital e o pedido médico original. Trazer exames anteriores relacionados, se houver. Avisar com antecedência se o paciente é de isolamento, acamado, em uso de oxigênio contínuo ou obeso.\n\nChegue com 30 minutos de antecedência. A antecedência específica registrada prevalece sobre a orientação geral.",
+      "reply": "USS REGULAÇÃO VIAS URINÁRIAS\n\nLevar documento de identificação com foto, Cartão do SUS, Cartão do Hospital e o pedido médico original. Trazer exames anteriores relacionados, se houver. Avisar com antecedência se o paciente é de isolamento, acamado, em uso de oxigênio contínuo ou obeso.\n\nChegue com 30 minutos de antecedência. A antecedência específica registrada prevalece sobre a orientação geral.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "USS REGULAÇÃO VIAS URINÁRIAS"
@@ -1260,7 +1264,7 @@
       ],
       "mocked": true,
       "responsePath": "request-policy",
-      "durationMs": 3,
+      "durationMs": 2,
       "checks": [
         {
           "label": "Documento com foto",
@@ -1302,7 +1306,7 @@
       "validation": "provisional",
       "expected": "nome e campo sigla de data/exames.json, sem inventar.",
       "prohibited": "mostrar código não pertencente ao exame.",
-      "reply": "**Raio-X contrastado — Histerossalpingografia**\n\n- ATENÇÃO: o exame deve ser realizado entre o 6º e o 12º dia da menstruação.\n- NÃO pode ser realizado em mulheres em uso de DIU, com corrimento vaginal ou sangramento.\n- Antes do exame: abstinência sexual 3 dias antes;\n- jejum de 3 horas antes do exame.\n- em caso de alergia, usar analgésico de costume.\n- Trazer absorvente higiênico.\n\nExames a trazer: Beta-HCG negativo (realizado até 3 dias antes do exame); preventivo/colposcopia com até 6 meses antes do exame; cultura de secreção vaginal negativa com até 6 meses antes do exame; exames anteriores de Ultrassonografia pélvica, Ressonância magnética ou Histerossalpingografia.\n\nOrientações sobre medicamentos precisam ser confirmadas com o médico ou com a UDI; não altere seu tratamento com base no chat.\n\nHISTEROSSALPINGOGRAFIA (código: RXHIS)\n\nContato do setor: (81) 2126 3872.\n\n**Fluxo de solicitação e realização — Raio-X (HC-UFPE)**\n\n1. As solicitações devem ser feitas obrigatoriamente pelo sistema AGHU.\n2. Os técnicos em radiologia de plantão avaliam a solicitação e optam pela realização do exame in loco ou acionam o setor demandante para que o paciente vá ao setor de Diagnóstico para fazer o exame; neste caso, os técnicos em radiologia acionam o maqueiro.\n3. É importante que o setor sempre avise caso o paciente tenha alguma restrição:\n3.1 Se o paciente é de isolamento — qual tipo: contato ou respiratório?\n3.2 Se o paciente tem limitação de mobilidade e está acamado.\n3.3 Se o paciente precisa de suporte de oxigênio contínuo.\n3.4 Se o paciente é obeso.\nObservação: apenas os exames de raio-X contrastados exigem preparo.\n\n**Telefone do setor de Raio-X contrastado:** (81) 2126 3872",
+      "reply": "**Raio-X contrastado — Histerossalpingografia**\n\n- ATENÇÃO: o exame deve ser realizado entre o 6º e o 12º dia da menstruação.\n\n- NÃO pode ser realizado em mulheres em uso de DIU, com corrimento vaginal ou sangramento.\n\n- Antes do exame: abstinência sexual 3 dias antes;\n\n**Jejum:** jejum de 3 horas antes do exame.\n\n- em caso de alergia, usar analgésico de costume.\n\n- Trazer absorvente higiênico.\n\nExames a trazer: Beta-HCG negativo (realizado até 3 dias antes do exame); preventivo/colposcopia com até 6 meses antes do exame; cultura de secreção vaginal negativa com até 6 meses antes do exame; exames anteriores de Ultrassonografia pélvica, Ressonância magnética ou Histerossalpingografia.\n\n**Medicamentos:** orientações sobre medicamentos precisam ser confirmadas com o médico ou com a UDI; não altere seu tratamento com base no chat.\n\nHISTEROSSALPINGOGRAFIA (código: RXHIS)\n\n**Contato do setor:** (81) 2126 3872.\n\n**Fluxo de solicitação e realização — Raio-X (HC-UFPE)**\n\n1. As solicitações devem ser feitas obrigatoriamente pelo sistema AGHU.\n2. Os técnicos em radiologia de plantão avaliam a solicitação e optam pela realização do exame in loco ou acionam o setor demandante para que o paciente vá ao setor de Diagnóstico para fazer o exame; neste caso, os técnicos em radiologia acionam o maqueiro.\n3. É importante que o setor sempre avise caso o paciente tenha alguma restrição:\n3.1 Se o paciente é de isolamento — qual tipo: contato ou respiratório?\n3.2 Se o paciente tem limitação de mobilidade e está acamado.\n3.3 Se o paciente precisa de suporte de oxigênio contínuo.\n3.4 Se o paciente é obeso.\nObservação: apenas os exames de raio-X contrastados exigem preparo.\n\n**Telefone do setor de Raio-X contrastado:** (81) 2126 3872",
       "sources": [
         {
           "nome": "HISTEROSSALPINGOGRAFIA",
@@ -1317,7 +1321,7 @@
       ],
       "mocked": true,
       "responsePath": "fallback",
-      "durationMs": 7,
+      "durationMs": 8,
       "checks": [
         {
           "label": "Código explícito",
@@ -1343,7 +1347,7 @@
       "validation": "provisional",
       "expected": "não expor código interno; oferecer nome do exame e orientação apropriada.",
       "prohibited": "qualquer sigla AGHU.",
-      "reply": "**Raio-X contrastado — Histerossalpingografia**\n\n- ATENÇÃO: o exame deve ser realizado entre o 6º e o 12º dia da menstruação.\n- NÃO pode ser realizado em mulheres em uso de DIU, com corrimento vaginal ou sangramento.\n- Antes do exame: abstinência sexual 3 dias antes;\n- jejum de 3 horas antes do exame.\n- em caso de alergia, usar analgésico de costume.\n- Trazer absorvente higiênico.\n\nExames a trazer: Beta-HCG negativo (realizado até 3 dias antes do exame); preventivo/colposcopia com até 6 meses antes do exame; cultura de secreção vaginal negativa com até 6 meses antes do exame; exames anteriores de Ultrassonografia pélvica, Ressonância magnética ou Histerossalpingografia.\n\nOrientações sobre medicamentos precisam ser confirmadas com o médico ou com a UDI; não altere seu tratamento com base no chat.\n\nDocumentos: identificação com foto, Cartão do SUS, Cartão do Hospital, pedido médico original e exames anteriores relacionados, se houver.\n\nChegue com 30 minutos de antecedência.\n\nContato do setor: (81) 2126 3872.\n\n**Fluxo de solicitação e realização — Raio-X (HC-UFPE)**\n\n1. As solicitações devem ser feitas obrigatoriamente pelo sistema AGHU.\n2. Os técnicos em radiologia de plantão avaliam a solicitação e optam pela realização do exame in loco ou acionam o setor demandante para que o paciente vá ao setor de Diagnóstico para fazer o exame; neste caso, os técnicos em radiologia acionam o maqueiro.\n3. É importante que o setor sempre avise caso o paciente tenha alguma restrição:\n3.1 Se o paciente é de isolamento — qual tipo: contato ou respiratório?\n3.2 Se o paciente tem limitação de mobilidade e está acamado.\n3.3 Se o paciente precisa de suporte de oxigênio contínuo.\n3.4 Se o paciente é obeso.\nObservação: apenas os exames de raio-X contrastados exigem preparo.\n\n**Telefone do setor de Raio-X contrastado:** (81) 2126 3872",
+      "reply": "Olá! Para **rx histerossalpingografia (contrastado)**, estas são as informações cadastradas:\n\n- ATENÇÃO: o exame deve ser realizado entre o 6º e o 12º dia da menstruação.\n\n- NÃO pode ser realizado em mulheres em uso de DIU, com corrimento vaginal ou sangramento.\n\n- Antes do exame: abstinência sexual 3 dias antes;\n\n**Jejum:** jejum de 3 horas antes do exame.\n\n- em caso de alergia, usar analgésico de costume.\n\n- Trazer absorvente higiênico.\n\nExames a trazer: Beta-HCG negativo (realizado até 3 dias antes do exame); preventivo/colposcopia com até 6 meses antes do exame; cultura de secreção vaginal negativa com até 6 meses antes do exame; exames anteriores de Ultrassonografia pélvica, Ressonância magnética ou Histerossalpingografia.\n\n**Medicamentos:** orientações sobre medicamentos precisam ser confirmadas com o médico ou com a UDI; não altere seu tratamento com base no chat.\n\n**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\n**Quando chegar:** Chegue com 30 minutos de antecedência.\n\n**Contato do setor:** (81) 2126 3872.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!\n\n**Fluxo de solicitação e realização — Raio-X (HC-UFPE)**\n\n1. As solicitações devem ser feitas obrigatoriamente pelo sistema AGHU.\n2. Os técnicos em radiologia de plantão avaliam a solicitação e optam pela realização do exame in loco ou acionam o setor demandante para que o paciente vá ao setor de Diagnóstico para fazer o exame; neste caso, os técnicos em radiologia acionam o maqueiro.\n3. É importante que o setor sempre avise caso o paciente tenha alguma restrição:\n3.1 Se o paciente é de isolamento — qual tipo: contato ou respiratório?\n3.2 Se o paciente tem limitação de mobilidade e está acamado.\n3.3 Se o paciente precisa de suporte de oxigênio contínuo.\n3.4 Se o paciente é obeso.\nObservação: apenas os exames de raio-X contrastados exigem preparo.\n\n**Telefone do setor de Raio-X contrastado:** (81) 2126 3872",
       "sources": [
         {
           "nome": "HISTEROSSALPINGOGRAFIA"
@@ -1357,7 +1361,7 @@
       ],
       "mocked": true,
       "responsePath": "fallback",
-      "durationMs": 2,
+      "durationMs": 3,
       "checks": [
         {
           "label": "Não exibe código",
@@ -1383,7 +1387,7 @@
       "validation": "provisional",
       "expected": "se não houver identificação inequívoca no catálogo, informar indisponibilidade e solicitar confirmação com setor.",
       "prohibited": "inventar preparo/jejum.",
-      "reply": "**Radiologia convencional (raio-X simples)**\n\n- Em geral não exige preparo.\n- Comparecer ao local na data e horário marcados com o Cartão do Hospital e a solicitação do exame.\n\nApenas exames de raio-X contrastados exigem preparo. Solicitação obrigatória pelo AGHU. Informar ao setor se o paciente é de isolamento (contato/respiratório), acamado/com limitação de mobilidade, em suporte de oxigênio contínuo ou obeso.\n\nDocumentos: identificação com foto, Cartão do SUS, Cartão do Hospital, pedido médico original e exames anteriores relacionados, se houver.\n\nChegue com 30 minutos de antecedência.\n\nContato do setor: (81) 2126 3872.",
+      "reply": "Olá! Para **radiologia convencional (raio-x simples)**, estas são as informações cadastradas:\n\n- Em geral não exige preparo.\n\n- Comparecer ao local na data e horário marcados com o Cartão do Hospital e a solicitação do exame.\n\nApenas exames de raio-X contrastados exigem preparo. Solicitação obrigatória pelo AGHU. Informar ao setor se o paciente é de isolamento (contato/respiratório), acamado/com limitação de mobilidade, em suporte de oxigênio contínuo ou obeso.\n\n**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\n**Quando chegar:** Chegue com 30 minutos de antecedência.\n\n**Contato do setor:** (81) 2126 3872.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "ANTEPE DIREITO"
@@ -1400,7 +1404,7 @@
       ],
       "mocked": true,
       "responsePath": "grounded-answer-policy",
-      "durationMs": 6,
+      "durationMs": 7,
       "checks": [
         {
           "label": "Encaminha para confirmação",
@@ -1431,7 +1435,7 @@
       "recoveredPreparoIds": [],
       "mocked": true,
       "responsePath": "request-policy",
-      "durationMs": 4,
+      "durationMs": 3,
       "checks": [
         {
           "label": "Contagem atual 814",
@@ -1449,7 +1453,7 @@
       "validation": "provisional",
       "expected": "apenas exames de RX contrastados exigem preparo segundo cadastro; distinguir pendente de dispensado; listar nomes do catálogo.",
       "prohibited": "dizer que todo RX exige preparo; incluir tomografia.",
-      "reply": "**Exames de raio-X que exigem preparo**\n\nEm radiologia convencional, apenas os exames de raio-X **contrastados** exigem preparo (o raio-X simples não exige). São eles:\n\n- **RX CINEMATOGRAFIA DA DEGLUTIÇÃO**\n- **COLANGIOGRAFIA TRANS-OPERATÓRIA**\n- **COLANGIOGRAFIA PELO DRENO**\n- **COLANGIOPANCREATOGRAFIA RETRÓGRADA ENDOSCÓPICA**\n- **DEGLUTIÇÃO - ADULTO**\n- **RX DEGLUTIÇÃO - INFANTIL**\n- **ESÔFAGO, ESTÔMAGO E DUODENO**\n- **ESÔFAGO**\n- **FISTULOGRAFIA (PERITONIOGRAFIA)**\n- **HISTEROSSALPINGOGRAFIA**\n- **SIALOGRAFIA DA PARÓTIDA DIREITA**\n- **SIALOGRAFIA PARÓTIDA ESQUERDA**\n- **SIALOGRAFIA SUBMANDIBULAR DIREITA**\n- **SIALOGRAFIA SUBMANDIBULAR ESQUERDA**\n- **TRÂNSITO DE DELGADO**\n- **TRÂNSITO DE INTESTINO DELGADO**\n- **TÓRAX CONTRASTADO**\n- **UROGRAFIA EXCRETORA COM CISTOGRAFIA**\n- **UROGRAFIA VENOSA MINUTADA 1-2-3**\n- **URETROCISTOGRAFIA RETRÓGRADA E MICCIONAL**\n- **RX URETROCISTOGRAFIA PEDIÁTRICA**\n\nPara o preparo detalhado de cada um, informe o exame desejado.",
+      "reply": "Olá!\n\n**Exames de raio-X que exigem preparo**\n\nEm radiologia convencional, apenas os exames de raio-X **contrastados** exigem preparo (o raio-X simples não exige). São eles:\n\n- **RX CINEMATOGRAFIA DA DEGLUTIÇÃO**\n- **COLANGIOGRAFIA TRANS-OPERATÓRIA**\n- **COLANGIOGRAFIA PELO DRENO**\n- **COLANGIOPANCREATOGRAFIA RETRÓGRADA ENDOSCÓPICA**\n- **DEGLUTIÇÃO - ADULTO**\n- **RX DEGLUTIÇÃO - INFANTIL**\n- **ESÔFAGO, ESTÔMAGO E DUODENO**\n- **ESÔFAGO**\n- **FISTULOGRAFIA (PERITONIOGRAFIA)**\n- **HISTEROSSALPINGOGRAFIA**\n- **SIALOGRAFIA DA PARÓTIDA DIREITA**\n- **SIALOGRAFIA PARÓTIDA ESQUERDA**\n- **SIALOGRAFIA SUBMANDIBULAR DIREITA**\n- **SIALOGRAFIA SUBMANDIBULAR ESQUERDA**\n- **TRÂNSITO DE DELGADO**\n- **TRÂNSITO DE INTESTINO DELGADO**\n- **TÓRAX CONTRASTADO**\n- **UROGRAFIA EXCRETORA COM CISTOGRAFIA**\n- **UROGRAFIA VENOSA MINUTADA 1-2-3**\n- **URETROCISTOGRAFIA RETRÓGRADA E MICCIONAL**\n- **RX URETROCISTOGRAFIA PEDIÁTRICA**\n\nPara o preparo detalhado de cada um, informe o exame desejado.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "RX CINEMATOGRAFIA DA DEGLUTIÇÃO"
@@ -1526,7 +1530,7 @@
       ],
       "mocked": true,
       "responsePath": "fallback",
-      "durationMs": 4,
+      "durationMs": 5,
       "checks": [
         {
           "label": "Distingue contrastados",
@@ -1552,7 +1556,7 @@
       "validation": "provisional",
       "expected": "orientação documental não constitui prescrição; alternativa requer avaliação médica/UDI.",
       "prohibited": "recomendar antiespasmódico ou analgésico específico individualizado.",
-      "reply": "Não altere seu tratamento com base no chat. Para decidir sobre dose, suspensão, continuidade ou substituição de medicamentos, confirme com o médico responsável e com a equipe da UDI. As orientações cadastradas não substituem uma avaliação individual.\n\nContato para confirmar: (81) 2126 3872.",
+      "reply": "Olá!\n\nNão altere seu tratamento com base no chat. Para decidir sobre dose, suspensão, continuidade ou substituição de medicamentos, confirme com o médico responsável e com a equipe da UDI. As orientações cadastradas não substituem uma avaliação individual.\n\nContato para confirmar: (81) 2126 3872.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "DILATAÇÃO PERCUTÂNEA DE ESTENOSES BILIARES E ANASTOMOSES BÍLIODIGESTIVAS"
@@ -1599,7 +1603,7 @@
       "validation": "provisional",
       "expected": "não há preparo cadastrado para variante; confirmar US (81) 2126 3884.",
       "prohibited": "afirmar ausência de preparo.",
-      "reply": "Não tenho o preparo específico cadastrado para informar as orientações deste exame. Isso não significa que o exame dispense preparo. Confirme com o setor antes do exame.\n\nContato do setor: (81) 2126 3884.",
+      "reply": "Olá!\n\nNão tenho o preparo específico cadastrado para informar as orientações deste exame. Isso não significa que o exame dispense preparo. Confirme com o setor antes do exame.\n\n**Contato do setor:** (81) 2126 3884.\n\nSe tiver outra dúvida sobre o exame, pode perguntar. Estou à disposição!",
       "sources": [
         {
           "nome": "MARCAÇÃO PRÉ-CIRURGICA DE LESÃO NÃO PALPAVEL DE MAMA ASSOCIADA A MAMOGRAFIA"
@@ -1610,7 +1614,7 @@
       ],
       "mocked": true,
       "responsePath": "fallback",
-      "durationMs": 2,
+      "durationMs": 3,
       "checks": [
         {
           "label": "Informa ausência de cadastro",

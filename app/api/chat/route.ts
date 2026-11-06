@@ -1,3 +1,4 @@
+import { conversationQuery } from "@/lib/conversation-query"
 import { createAnthropic } from "@ai-sdk/anthropic"
 import { generateText } from "ai"
 import examesData from "@/data/exames.json"
@@ -47,17 +48,7 @@ const SYSTEM_PROMPTS: Record<Profile, string> = {
 // identifica exame (ex.: follow-up "me explique os documentos para levar"),
 // reutiliza o contexto das últimas mensagens do usuário.
 function resolveExames(message: string, history: ChatMessage[]): Exame[] {
-  const direct = searchExames(message, exames)
-  if (direct.length > 0) return direct
-
-  const lastUser = history
-    .filter((m) => m.role === "user")
-    .slice(-3)
-    .map((m) => m.content)
-    .join(" ")
-
-  if (!lastUser) return []
-  return searchExames(`${lastUser} ${message}`, exames)
+  return searchExames(conversationQuery(message, history), exames)
 }
 
 // Detecta perguntas sobre o fluxo operacional de raio-X (solicitação, AGHU, etc.)
