@@ -324,7 +324,7 @@ export function ChatClient() {
           )}
 
           {messages.map((msg, i) => (
-            <MessageBubble key={i} message={msg} />
+            <MessageBubble key={i} message={msg} profile={profile} />
           ))}
 
           {isLoading && <TypingIndicator />}
@@ -367,7 +367,7 @@ export function ChatClient() {
   )
 }
 
-function MessageBubble({ message }: { message: DisplayMessage }) {
+function MessageBubble({ message, profile }: { message: DisplayMessage; profile: Profile }) {
   const isUser = message.role === "user"
   const hasSources = !isUser && message.sources && message.sources.length > 0
 
@@ -387,7 +387,7 @@ function MessageBubble({ message }: { message: DisplayMessage }) {
       <div className="max-w-[88%] rounded-2xl rounded-bl-sm border border-border bg-card px-4 py-3 text-sm leading-relaxed text-card-foreground">
         <FormattedContent text={message.content} isUser={false} />
 
-        {hasSources && message.sources!.some(src => src.evidence?.length) && (
+        {profile === "professional" && hasSources && message.sources!.some(src => src.evidence?.length) && (
           <details className="mt-3 rounded-lg border border-border p-3 text-xs">
             <summary className="cursor-pointer font-medium">Informações e trechos de origem — validação UDI pendente</summary>
             <p className="mt-2">Referências dos itens documentados. Contatos, documentos gerais e outras informações herdadas do cadastro ainda não têm proveniência completa reconciliada.</p>
