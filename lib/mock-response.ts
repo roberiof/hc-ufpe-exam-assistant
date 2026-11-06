@@ -73,10 +73,11 @@ function buildResponse(
   message: string,
   profile: Profile,
   history: ChatMessage[] = [],
+  forced?: Exame[],
 ): { reply: string; sources: Source[] } {
   const geral = preparos.meta.orientacoes_gerais
-  const choices = examModalityChoices(conversationQuery(message, history), exames)
-  const matched = choices.length ? [] : resolveExames(message, history)
+  const choices = forced ? [] : examModalityChoices(conversationQuery(message, history), exames)
+  const matched = forced ?? (choices.length ? [] : resolveExames(message, history))
   if (asksMedicationDecision(message)) {
     const phones = [...new Set(matched.map(e => phoneForModalidade(e.modalidade)))]
     return {
@@ -84,7 +85,7 @@ function buildResponse(
       sources: matched.map(e => profile === "professional" ? { nome: e.nome, sigla: e.sigla } : { nome: e.nome }),
     }
   }
-  const intent = deterministicIntent(message) ?? (deterministicIntent(conversationQuery(message, history)) === "clarify" ? "clarify" : undefined)
+  const intent = forced ? undefined : deterministicIntent(message) ?? (deterministicIntent(conversationQuery(message, history)) === "clarify" ? "clarify" : undefined)
   if (intent === 'missing') return {reply:'Não tenho um preparo específico cadastrado para um exame que não foi identificado no catálogo. Isso não significa que ele dispense preparo. Confirme com o setor antes do exame.\n\nContato para confirmar: ' + phoneForModalidade(parseFilter(message).modalidade ?? '') + '.', sources:[]}
   if (intent === 'attributes') return {reply:'A mensagem menciona atributos diferentes para o exame. O pedido informa com ou sem contraste e com ou sem sedação? Confirme a variante para evitarmos misturar orientações.', sources:[]}
   if (intent === "count") {
@@ -143,8 +144,8 @@ function buildResponse(
 }
 
 /** Keep the conversational tone independent of factual response construction. */
-export function generateMockResponse(message: string, profile: Profile, history: ChatMessage[] = []) {
-  const result = buildResponse(message, profile, history)
+export function generateMockResponse(message: string, profile: Profile, history: ChatMessage[] = [], forced?: Exame[]) {
+  const result = buildResponse(message, profile, history, forced)
   if (profile !== "patient") return result
   let reply = result.reply
   if (history.length && reply.startsWith("Olá! ")) reply = reply.slice(5)

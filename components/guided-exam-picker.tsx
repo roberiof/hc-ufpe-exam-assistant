@@ -69,7 +69,7 @@ export function GuidedExamPicker({
   onSubmit,
   onClose,
 }: {
-  onSubmit: (query: string) => void
+  onSubmit: (query: string, sigla?: string) => void
   onClose?: () => void
 }) {
   const [step, setStep] = useState<Step>("modality")
@@ -95,9 +95,9 @@ export function GuidedExamPicker({
     return groups.filter((g) => normalize(g.baseLabel).includes(q))
   }, [groups, filter])
 
-  function handleModalidade(m: string, singleQuery?: string) {
-    if (singleQuery) {
-      onSubmit(singleQuery)
+  function handleModalidade(m: string, single?: { query: string; sigla: string }) {
+    if (single) {
+      onSubmit(single.query, single.sigla)
       return
     }
     setModalidade(m)
@@ -108,7 +108,7 @@ export function GuidedExamPicker({
   function handleBase(g: ExamGroup) {
     // Grupo sem variantes divergentes → vai direto ao único exame.
     if (g.axes.length === 0) {
-      onSubmit(g.variants[0].exam.query)
+      onSubmit(g.variants[0].exam.query, g.variants[0].exam.sigla)
       return
     }
     setGroup(g)
@@ -126,7 +126,7 @@ export function GuidedExamPicker({
       group.axes.every((ax) => next[ax] === undefined || v[ax] === next[ax])
     )
     if (remaining.length === 1) {
-      onSubmit(remaining[0].exam.query)
+      onSubmit(remaining[0].exam.query, remaining[0].exam.sigla)
     }
   }
 
@@ -196,7 +196,7 @@ export function GuidedExamPicker({
               <button
                 key={m.modalidade}
                 type="button"
-                onClick={() => handleModalidade(m.modalidade, single?.query)}
+                onClick={() => handleModalidade(m.modalidade, single)}
                 className={CHIP_CLASS}
               >
                 <Icon className="size-5 shrink-0 text-azure" aria-hidden="true" />

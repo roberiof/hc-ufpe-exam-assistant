@@ -218,15 +218,23 @@ export async function POST(req: Request) {
       message: string
       profile: Profile
       history: ChatMessage[]
+      examSigla?: string
     }
 
-    const { message, profile = "patient", history = [] } = body
+    const { message, profile = "patient", history = [], examSigla } = body
     fallbackMessage = message
     fallbackProfile = profile
     fallbackHistory = history
 
     if (!message || typeof message !== "string") {
       return Response.json({ error: "Mensagem inválida." }, { status: 400 })
+    }
+
+    // Clique no seletor guiado: o exame já foi escolhido pelo usuário; não buscar de novo pelo texto.
+    const picked = typeof examSigla === "string" && examSigla ? exames.filter((e) => e.sigla === examSigla) : []
+    if (picked.length === 1 && !asksMedicationDecision(message)) {
+      const result = generateMockResponse(message, profile, history, picked)
+      return Response.json({ ...result, mocked: true, reason: "picker-selection" })
     }
 
     if (asksMedicationDecision(message) || deterministicIntent(message) || (!wantsAggregateList(message) && examModalityChoices(conversationQuery(message, history), exames).length > 0)) {

@@ -58,6 +58,7 @@ type ChatRequest = {
   message: string
   profile: Profile
   history: { role: StoredMessage["role"]; content: string }[]
+  examSigla?: string
 }
 
 // Erro de rede/conectividade: o fetch nem chegou ao servidor.
@@ -185,7 +186,7 @@ export function ChatClient() {
     }
   }
 
-  async function sendMessage(text: string) {
+  async function sendMessage(text: string, examSigla?: string) {
     const trimmed = text.trim()
     if (!trimmed || sendingRef.current) return
     sendingRef.current = true
@@ -200,7 +201,7 @@ export function ChatClient() {
     setIsLoading(true)
 
     try {
-      const data = await postChatMessage({ message: trimmed, profile, history })
+      const data = await postChatMessage({ message: trimmed, profile, history, examSigla })
 
       commitMessages(
         [
@@ -332,7 +333,7 @@ export function ChatClient() {
                   ))}
                 </div>
               ) : (
-                <GuidedExamPicker onSubmit={(q) => sendMessage(q)} />
+                <GuidedExamPicker onSubmit={(q, sigla) => sendMessage(q, sigla)} />
               )}
             </div>
           )}
