@@ -1,0 +1,122 @@
+{
+  "version": 2,
+  "scope": "Qualidade de apresentação dos três exemplos do usuário; não é homologação clínica.",
+  "before": [
+    {
+      "id": "GT-02",
+      "checks": [
+        {
+          "label": "Sem posologia ou suspensão automática",
+          "passed": false
+        },
+        {
+          "label": "Não introduz pré-transplante",
+          "passed": false
+        },
+        {
+          "label": "Jejum informado uma vez",
+          "passed": false
+        }
+      ],
+      "passed": false,
+      "characters": 828
+    },
+    {
+      "id": "GT-05",
+      "checks": [
+        {
+          "label": "Sem posologia ou suspensão automática",
+          "passed": true
+        },
+        {
+          "label": "Explicita dúvida de sedação",
+          "passed": false
+        },
+        {
+          "label": "Não repete protocolos nem linguagem interna",
+          "passed": false
+        }
+      ],
+      "passed": false,
+      "characters": 1082
+    },
+    {
+      "id": "GT-21",
+      "checks": [
+        {
+          "label": "Sem posologia ou suspensão automática",
+          "passed": false
+        },
+        {
+          "label": "Jejum e chegada aparecem uma vez",
+          "passed": false
+        },
+        {
+          "label": "Resposta direta sem protocolo extenso",
+          "passed": false
+        }
+      ],
+      "passed": false,
+      "characters": 2525
+    }
+  ],
+  "after": [
+    {
+      "id": "GT-02",
+      "checks": [
+        {
+          "label": "Sem posologia ou suspensão automática",
+          "passed": true
+        },
+        {
+          "label": "Não introduz pré-transplante",
+          "passed": true
+        },
+        {
+          "label": "Jejum informado uma vez",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "characters": 421
+    },
+    {
+      "id": "GT-05",
+      "checks": [
+        {
+          "label": "Sem posologia ou suspensão automática",
+          "passed": true
+        },
+        {
+          "label": "Explicita dúvida de sedação",
+          "passed": true
+        },
+        {
+          "label": "Não repete protocolos nem linguagem interna",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "characters": 283
+    },
+    {
+      "id": "GT-21",
+      "checks": [
+        {
+          "label": "Sem posologia ou suspensão automática",
+          "passed": true
+        },
+        {
+          "label": "Jejum e chegada aparecem uma vez",
+          "passed": true
+        },
+        {
+          "label": "Resposta direta sem protocolo extenso",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "characters": 153
+    }
+  ]
+}

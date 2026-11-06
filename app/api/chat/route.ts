@@ -252,6 +252,12 @@ export async function POST(req: Request) {
       return Response.json({ reply: result.reply, sources: result.sources, mocked: true, reason: asksMedicationDecision(message) ? "medication-policy" : "request-policy" })
     }
 
+    // Exam guidance uses the same constrained renderer with or without an AI key.
+    if (resolveExames(message, history).length && !wantsAggregateList(message) && !wantsListaRaiox(message) && !wantsFluxoRaiox(message)) {
+      const result = generateMockResponse(message, profile, history)
+      return Response.json({ ...result, mocked: true, reason: "grounded-answer-policy" })
+    }
+
     if (!process.env.CLAUDE_API_KEY) {
       // Sem chave configurada: usa resposta determinística a partir da base.
       const mock = generateMockResponse(message, profile, history)
