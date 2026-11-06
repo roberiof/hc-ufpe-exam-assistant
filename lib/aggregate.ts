@@ -118,7 +118,8 @@ export function wantsAggregateCount(query: string): boolean {
  */
 export function wantsAggregateList(query: string): boolean {
   const q = stemQuery(normalize(query))
-  if (!LIST_REGEX.test(q)) return false
+  if (/document|cartao/.test(q) || !LIST_REGEX.test(q)) return false
+  if (/\bquais\b/.test(q) && !/\bquais (?:sao os )?exames?\b/.test(q) && !BASE_HINT_REGEX.test(q)) return false
   const f = parseFilter(query)
   return (
     BASE_HINT_REGEX.test(q) ||
