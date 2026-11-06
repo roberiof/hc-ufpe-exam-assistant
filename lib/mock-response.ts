@@ -2,7 +2,7 @@ import { conversationQuery } from "./conversation-query"
 import { composeAnswer } from "./answer-composer"
 import examesData from "@/data/exames.json"
 import preparosData from "@/data/preparos.json"
-import { searchExames, normalize, examTargetQuery } from "@/lib/search"
+import { searchExames, normalize, examTargetQuery, examModalityChoices } from "@/lib/search"
 import { stemQuery } from "@/lib/stem"
 import { asksMedicationDecision, medicationReferral } from "@/lib/medication-policy"
 import { deterministicIntent, wantsListaRaiox } from "@/lib/request-policy"
@@ -75,7 +75,8 @@ function buildResponse(
   history: ChatMessage[] = [],
 ): { reply: string; sources: Source[] } {
   const geral = preparos.meta.orientacoes_gerais
-  const matched = resolveExames(message, history)
+  const choices = examModalityChoices(conversationQuery(message, history), exames)
+  const matched = choices.length ? [] : resolveExames(message, history)
   if (asksMedicationDecision(message)) {
     const phones = [...new Set(matched.map(e => phoneForModalidade(e.modalidade)))]
     return {
@@ -112,6 +113,18 @@ function buildResponse(
   // Pergunta de fluxo sem exame específico: responde só o fluxo.
   if (fluxo && matched.length === 0) {
     return fluxo
+  }
+
+  if (choices.length) {
+    const labels: Record<string,string> = {
+      tomografia_computadorizada: 'Tomografia', ressonancia_magnetica: 'Ressonância magnética',
+      radiologia_convencional: 'Raio-X', ultrassonografia: 'Ultrassonografia',
+      mamografia: 'Mamografia', densitometria_ossea: 'Densitometria', medicina_nuclear: 'Cintilografia',
+    }
+    return {
+      reply: 'Você informou a região do exame, mas ela pode corresponder a diferentes tipos de exame. Para orientar o preparo, preciso saber qual foi solicitado.\n\n**Qual destes aparece no seu pedido?**\n\n' + choices.map(mod => `- **${labels[mod] ?? mod}**`).join('\n') + '\n\nVerifique o nome completo no pedido médico. Você pode copiá-lo aqui; se souber apenas o tipo do exame, pode me dizer para continuarmos.\n\nSe precisar de ajuda para identificar o exame, o contato da Imagem Geral é ' + geral.telefones.imagem_geral + '.',
+      sources: [],
+    }
   }
 
   if (matched.length === 0) {

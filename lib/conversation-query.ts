@@ -1,4 +1,4 @@
-import { normalize } from './search'
+import { normalize, hasExplicitModality } from './search'
 import type { ChatMessage } from './types'
 
 // Explicit new exams reset previous qualifiers, even when the catalog cannot find them.
@@ -11,6 +11,13 @@ export function conversationQuery(message: string, history: ChatMessage[]): stri
   for (const text of [...history.filter(m => m.role === 'user').slice(-8).map(m => m.content), message]) {
     const q = normalize(text)
     if (names.test(q) || /\b(vou fazer|outro exame|agora farei)\b/.test(q)) {
+      // A short answer selecting a modality completes an anatomical-only request.
+      const modalityAnswer = /^(?:e |eh |uma |um )?(?:tomografia|tc|ressonancia(?: magnetica)?|rm|raio x|radiografia|rx)(?: (?:com|sem) (?:contraste|sedacao)(?: e)?)*$/.test(q)
+      active = active && !hasExplicitModality(active) && region.test(normalize(active)) && modalityAnswer
+        ? `${active} ${text}` : text
+      continue
+    }
+    if (region.test(q) && (!active || /^exame\b/.test(q))) {
       active = text
       continue
     }
@@ -23,7 +30,7 @@ export function conversationQuery(message: string, history: ChatMessage[]): stri
   }
   const q = normalize(message)
   // Only inherit context for explicit continuations or short clarification answers.
-  if (names.test(q) || /\b(vou fazer|outro exame|agora farei)\b/.test(q)) return message
+  if (names.test(q) || /\b(vou fazer|outro exame|agora farei)\b/.test(q)) return active
   if (active && (/\b(contraste|sedacao|documentos|levar|chegar|jejum|preparo|hora|horas)\b/.test(q) || region.test(q))) return active
   return message
 }
