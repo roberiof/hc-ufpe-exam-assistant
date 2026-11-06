@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "bindings": {
+    "ultrassonografia:BPGUS": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "ultrassonografia:USAAI": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "ultrassonografia:USABD": {
+      "preparo_id": "us_abdômen",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 30–35"
+      }
+    },
+    "ultrassonografia:USABT": {
+      "preparo_id": "us_abdômen",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 30–35"
+      }
+    },
+    "ultrassonografia:USAPU": {
+      "preparo_id": "us_pelvica_vias_urinarias",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 30–35"
+      },
+      "search_aliases": [
+        "ULTRASSONOGRAFIA DE VIAS URINÁRIAS",
+        "ULTRASSOM DE VIAS URINÁRIAS"
+      ]
+    },
+    "ultrassonografia:USAR": {
+      "preparo_id": "us_doppler_arterias_renais",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 24–25"
+      }
+    },
+    "ultrassonografia:USBI1": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "ultrassonografia:USBI6": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "ultrassonografia:USCAA": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "ultrassonografia:USGIN": {
+      "preparo_id": "us_pelvica_vias_urinarias",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 30–35"
+      }
+    },
+    "ultrassonografia:USGP": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "ultrassonografia:USGPA": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "ultrassonografia:USHOM": {
+      "preparo_id": "us_pelvica_vias_urinarias",
+      "status": "documentary-review",
+      "reason": "Associação restrita ao exame explicitamente descrito em S05; homologação UDI pendente.",
+      "basis": {
+        "sourceId": "orientacoes-exames",
+        "sourceHash": "ad6965f902d0cefd0c5942df644fdd2d1a498ba0cb7be00074b41ca6b67c3a02",
+        "locator": "parágrafos 30–35"
+      }
+    },
+    "ultrassonografia:USPRO": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "ultrassonografia:USPTV": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "ultrassonografia:USSRV": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "ultrassonografia:USTDC": {
+      "preparo_id": "us_pendente",
+      "status": "needs-review",
+      "reason": "Sem equivalência documental demonstrada com o grupo abdominal/pélvico; não inferir preparo."
+    },
+    "mamografia:MAMPC": {
+      "preparo_id": "mamografia_pendente",
+      "status": "needs-review",
+      "reason": "Procedimento em peça cirúrgica; não aplicar preparo de paciente sem fonte específica."
+    }
+  },
+  "sourceRegistry": "documentary-evidence.json",
+  "reviewedAt": "2026-11-06"
+}

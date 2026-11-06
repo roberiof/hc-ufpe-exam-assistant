@@ -15,10 +15,23 @@ export type Exame = {
   label_paciente?: string
   sinonimos: string[]
   modalidade: string
+  association_review?: { preparo_id: string; status: string; reason: string }
   preparo_id: string
 }
 
+export type EvidenceReference = {
+  factId: string
+  text: string
+  topic: string
+  sourceTitle: string
+  sourceHash: string
+  locator: string
+  quote: string
+  validation: "pending-udi"
+}
+
 export type Preparo = {
+  fact_ids?: string[]
   titulo: string
   orientacoes: string
   status: PreparoStatus
@@ -45,6 +58,9 @@ export type PreparosFile = {
 }
 
 export type Source = {
+  evidence?: EvidenceReference[]
+  evidenceStatus?: "documentary-only" | "legacy-untraced"
+
   nome: string
   /** Código AGHU (sigla). Exposto SOMENTE no perfil profissional. */
   sigla?: string

@@ -22,6 +22,8 @@ const SRC = join(ROOT, "docs-exames-udi-aghu.md")
 const OUT = join(ROOT, "data", "exames.json")
 const PREPAROS = join(ROOT, "data", "preparos.json")
 
+const ASSOCIATIONS = JSON.parse(readFileSync(join(ROOT, "data", "exam-preparation-associations.json"), "utf8")).bindings
+
 const CHECK_ONLY = process.argv.includes("--check")
 
 // espelha lib/search.ts normalize()
@@ -194,11 +196,19 @@ const exames = Array.from(byKey.values()).map((e) => {
     sigla: e.sigla,
     nome: e.nome,
     nome_usual: e.nome_usual,
-    sinonimos,
+    sinonimos: [...new Set([...sinonimos, ...(ASSOCIATIONS[`${e.modalidade}:${e.sigla}`]?.search_aliases ?? [])])],
     modalidade: e.modalidade,
-    preparo_id: mapPreparoId(e.modalidade, e.nome_usual),
+    preparo_id: ASSOCIATIONS[`${e.modalidade}:${e.sigla}`]?.preparo_id ?? mapPreparoId(e.modalidade, e.nome_usual),
+    ...(ASSOCIATIONS[`${e.modalidade}:${e.sigla}`] ? { association_review: ASSOCIATIONS[`${e.modalidade}:${e.sigla}`] } : {}),
   }
 })
+
+// Reject stale/typoed explicit associations instead of silently ignoring them.
+for (const key of Object.keys(ASSOCIATIONS)) {
+  if (!exames.some(e => `${e.modalidade}:${e.sigla}` === key)) {
+    throw new Error(`Associação explícita sem exame no catálogo: ${key}`)
+  }
+}
 
 // sort estável: ordem de modalidade, depois sigla
 exames.sort((a, b) => {
@@ -247,7 +257,7 @@ for (const m of MODALIDADE_ORDER) {
 }
 const reais = Object.values(perStatus).reduce((a, s) => a + s.ok + s.parcial, 0)
 const pend = Object.values(perStatus).reduce((a, s) => a + s.pendente, 0)
-console.log(`\nCobertura: ${reais} com preparo real (ok/parcial), ${pend} pendente (fallback seguro)`)
+console.log(`\nCobertura: ${reais} com orientações cadastradas (ok/parcial; não é homologação), ${pend} pendente (fallback seguro)`)
 
 if (missing.size > 0) {
   console.error("\n✗ FK inválida — preparo_id inexistente em preparos.json:")

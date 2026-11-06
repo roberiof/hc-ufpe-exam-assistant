@@ -192,6 +192,17 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
   const scored = index
     .filter(({ exame }) => {
       const name = normalize(`${exame.nome} ${exame.nome_usual}`)
+      const explicitCode = q === normalize(exame.sigla) || (/\bcodigo\b/.test(q) && q.split(' ').includes(normalize(exame.sigla)))
+      // Do not introduce a specialized procedure when the question asks for a general exam.
+      const specialScopes = [
+        { inName: /pre transplante/, inQuery: /transplant/ },
+        { inName: /peca cirurg/, inQuery: /peca|cirurg/ },
+        { inName: /regulacao/, inQuery: /regulacao/ },
+        { inName: /complement/, inQuery: /complement/ },
+        { inName: /biops|puncao/, inQuery: /biops|puncao|agulha/ },
+        { inName: /marcacao pre cirurg/, inQuery: /marcacao|cirurg/ },
+      ]
+      if (!explicitCode && specialScopes.some(scope => scope.inName.test(name) && !scope.inQuery.test(q))) return false
       return (!mentioned.length || mentioned.includes(exame.modalidade)) &&
         compatible(name, "contraste", contrast) && compatible(name, "sedacao", sedation) &&
         (!child || /pediatric|crianca/.test(name)) && (!adult || !/pediatric|crianca/.test(name))
