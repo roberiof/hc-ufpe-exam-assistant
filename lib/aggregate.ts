@@ -100,6 +100,7 @@ export function parseFilter(query: string): AggregateFilter {
  */
 export function wantsAggregateCount(query: string): boolean {
   const q = stemQuery(normalize(query))
+  if (/\b(hora|minuto|tempo|dia|dose|agua)\b/.test(q)) return false
   if (!COUNT_REGEX.test(q)) return false
   const f = parseFilter(query)
   return (

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest"
 import examesData from "@/data/exames.json"
-import { searchExames, damerauLevenshtein } from "./search"
+import { searchExames, damerauLevenshtein, normalize } from "./search"
 import type { Exame } from "./types"
 
 const exames = examesData as Exame[]
@@ -80,6 +80,24 @@ describe("SEGURANÇA — recusa preservada", () => {
 })
 
 describe("ranking — consulta exata retorna a modalidade certa", () => {
+  it("não mistura angiotomografia com ultrassom de abdômen", () => {
+    const r = searchExames("Vou fazer ultrassom de abdômen total. Qual o preparo?", exames)
+    expect(r.length).toBeGreaterThan(0)
+    expect(r.every(e => e.modalidade === "ultrassonografia")).toBe(true)
+  })
+  it("respeita contraste explicitamente negado", () => {
+    const r = searchExames("Vou fazer tomografia de tórax sem contraste. Qual o jejum?", exames)
+    expect(r.length).toBeGreaterThan(0)
+    expect(r.every(e => /SEM CONTRASTE/i.test(e.nome))).toBe(true)
+  })
+  it("não aplica variante adulta à pergunta pediátrica", () => {
+    const r = searchExames("Minha criança vai fazer uretrocistografia. Qual antibiótico e dose devo dar?", exames)
+    expect(r.length).toBeGreaterThan(0)
+    expect(r.every(e => /pediatr|crianca/.test(normalize(e.nome)))).toBe(true)
+  })
+  it("não casa siglas como fragmentos de palavras comuns", () => {
+    expect(searchExames("tempo", [{sigla:"TEM", nome:"EXAME TESTE", nome_usual:"EXAME TESTE", sinonimos:[], modalidade:"teste", preparo_id:"teste"}])).toEqual([])
+  })
   it("'mamografia' traz exames de mamografia no top-3", () => {
     const r = searchExames("mamografia", exames)
     expect(r.length).toBeGreaterThan(0)
