@@ -13,7 +13,9 @@ test.describe("follow-up herda contexto do exame", () => {
     // Turno 1 — exame específico bem distinto (tórax).
     await ask(page, "Como me preparo para a tomografia de tórax com contraste?")
     const first = await waitForReply(page, 0)
-    expect(first.toLowerCase()).toContain("tórax")
+    // Catalog spellings vary in accents; assert exam identity independently.
+    const normalized = (text: string) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    expect(normalized(first)).toContain("torax")
 
     // Turno 2 — follow-up genérico, sem citar exame.
     const before = await assistantBubbles(page).count()
@@ -22,6 +24,8 @@ test.describe("follow-up herda contexto do exame", () => {
 
     // Não pode ter surgido um exame não relacionado (ex.: o bug trazia pelve/endometriose).
     const lower = second.toLowerCase()
+    expect(normalized(second)).toContain("torax")
+    expect(normalized(second)).toContain("com contraste")
     expect(lower).not.toContain("endometriose")
     expect(lower).not.toContain("angioressonância")
     expect(lower).not.toContain("pelve")

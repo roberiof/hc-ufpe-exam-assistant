@@ -12,6 +12,9 @@ import {
 } from "@/lib/aggregate"
 import { prettifyExamName } from "@/lib/exam-options"
 import { generateMockResponse } from "@/lib/mock-response"
+import { explicitlyNoPreparation } from "@/lib/preparation-policy"
+import { asksMedicationDecision } from "@/lib/medication-policy"
+import { deterministicIntent } from "@/lib/request-policy"
 import type { ChatMessage, Exame, PreparosFile, Profile, Source } from "@/lib/types"
 
 export const runtime = "nodejs"
@@ -210,7 +213,8 @@ function buildContext(
       if (preparo.observacoes) {
         context += `OBSERVAÇÕES: ${preparo.observacoes}\n`
       }
-      if (preparo.status === "ok" && /n[aã]o\s+exige|n[aã]o\s+[eé]\s+necess[aá]rio\s+jejum|geralmente n[aã]o/i.test(preparo.orientacoes)) {
+      context += `REGRAS: Ausência de jejum não significa ausência de preparo. Orientação específica explícita prevalece sobre a geral no mesmo assunto. Status parcial exige informar que há lacunas e recomendar confirmação com o setor. Status ok indica cadastro preenchido, não homologação clínica.\n`
+      if (preparo.status === "ok" && explicitlyNoPreparation(exame.preparo_id)) {
         context += `NOTA: Este exame COMPROVADAMENTE não exige preparo (informação confirmada na base). Deixe isso claro e tranquilo para o usuário — é diferente de "preparo não cadastrado".\n`
       }
     }
@@ -241,6 +245,11 @@ export async function POST(req: Request) {
 
     if (!message || typeof message !== "string") {
       return Response.json({ error: "Mensagem inválida." }, { status: 400 })
+    }
+
+    if (asksMedicationDecision(message) || deterministicIntent(message)) {
+      const result = generateMockResponse(message, profile, history)
+      return Response.json({ reply: result.reply, sources: result.sources, mocked: true, reason: asksMedicationDecision(message) ? "medication-policy" : "request-policy" })
     }
 
     if (!process.env.CLAUDE_API_KEY) {

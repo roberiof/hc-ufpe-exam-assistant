@@ -121,7 +121,6 @@ let INDEXED_FOR: Exame[] | null = null
 function buildIndex(exames: Exame[]): Indexed[] {
   return exames.map((exame) => {
     const fields = [
-      exame.sigla,
       exame.nome,
       exame.nome_usual,
       ...exame.sinonimos,
@@ -129,7 +128,7 @@ function buildIndex(exames: Exame[]): Indexed[] {
     const haystack = fields.join(" ")
     return {
       exame,
-      sigla: fields[0] ?? "",
+      sigla: normalize(exame.sigla),
       haystack,
       hayTokens: haystack.split(" ").filter(Boolean),
     }
@@ -171,13 +170,37 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
   const layTokens = expandLayTerms(tokens)
 
   const index = getIndex(exames)
+  const modalities: Array<[string, RegExp]> = [
+    ["tomografia_computadorizada", /\btomografia\b|\bangiotomografia\b|\btc\b/],
+    ["ressonancia_magnetica", /\bressonancia\b|\bracionancia\b|\bresonancia\b|\bangioressonancia\b|\brm\b/],
+    ["ultrassonografia", /\bultrassom\b|\bultrassonografia\b|\busg\b|\bus\b/],
+    ["radiologia_convencional", /\braio\s*x\b|\brx\b|\bradiografia\b|histerossalpingografia|uretrocistografia|enema opaco/],
+    ["mamografia", /\bmamografia\b/],
+    ["densitometria_ossea", /\bdensitometria\b/],
+    ["medicina_nuclear", /\bcintilografia\b|medicina nuclear/],
+  ]
+  const mentioned = modalities.filter(([, re]) => re.test(tokens.join(" "))).map(([mod]) => mod)
+  // More than one explicit modality is ambiguous; do not silently choose one.
+  if (mentioned.length > 1) return []
+  const contrast = /\bsem contraste\b/.test(q) ? false : /\bcom contraste\b/.test(q) ? true : undefined
+  const sedation = /\bsem sedacao\b/.test(q) ? false : /\bcom sedacao\b/.test(q) ? true : undefined
+  const child = /\bcrianca\b|\bfilh[oa]\b|\bpediatric/.test(q)
+  const adult = /\badult/.test(q)
+  const compatible = (name: string, attribute: string, value: boolean | undefined) =>
+    value === undefined || new RegExp(`\\b${value ? "com" : "sem"} ${attribute}\\b`).test(name)
 
   const scored = index
+    .filter(({ exame }) => {
+      const name = normalize(exame.nome)
+      return (!mentioned.length || mentioned.includes(exame.modalidade)) &&
+        compatible(name, "contraste", contrast) && compatible(name, "sedacao", sedation) &&
+        (!child || /pediatric|crianca/.test(name)) && (!adult || !/pediatric|crianca/.test(name))
+    })
     .map(({ exame, sigla, haystack, hayTokens }) => {
       let score = 0
 
       // Correspondência exata da sigla.
-      if (sigla && q.includes(sigla)) score += W_SIGLA
+      if (sigla && (q === sigla || new RegExp(`\\bcodigo(?: aghu)? (?:do exame )?${sigla}\\b`).test(q))) score += W_SIGLA
 
       // Correspondência de campo completo (query inteira).
       if (haystack.includes(q)) score += W_FIELD_CONTAINS_Q
@@ -210,5 +233,6 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
     .filter((s) => s.score > 0 && (tokens.length > 0 || s.score >= W_Q_CONTAINS_FIELD))
     .sort((a, b) => b.score - a.score)
 
-  return scored.slice(0, 3).map((s) => s.exame)
+  const best = scored[0]?.score ?? 0
+  return scored.filter(s => s.score >= best - 2).slice(0, 3).map((s) => s.exame)
 }

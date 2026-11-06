@@ -2,6 +2,10 @@ import examesData from "@/data/exames.json"
 import preparosData from "@/data/preparos.json"
 import { searchExames, normalize } from "@/lib/search"
 import { stemQuery } from "@/lib/stem"
+import { explicitlyNoPreparation, arrivalInstruction } from "@/lib/preparation-policy"
+import { asksMedicationDecision, medicationReferral } from "@/lib/medication-policy"
+import { deterministicIntent } from "@/lib/request-policy"
+import { parseFilter, classifyPreparo } from "@/lib/aggregate"
 import type { ChatMessage, Exame, PreparosFile, Profile, Source } from "@/lib/types"
 
 const exames = examesData as Exame[]
@@ -22,9 +26,6 @@ function phoneForModalidade(modalidade: string): string {
   if (/radiologia/.test(modalidade)) return tel.raio_x_contrastado
   return tel.imagem_geral
 }
-
-const semPreparoRegex =
-  /n[aã]o\s+exige|n[aã]o\s+[eé]\s+necess[aá]rio\s+jejum|geralmente n[aã]o|n[aã]o\s+[eé]\s+necess[aá]rio\s+preparo/i
 
 const fluxoRxRegex =
   /\bfluxo\b|\baghu\b|solicit|maqueir|tecnic|passo a passo|como pedir|como solicitar|pedir exame|realizacao do exame|in loco/
@@ -99,6 +100,24 @@ export function generateMockResponse(
 ): { reply: string; sources: Source[] } {
   const geral = preparos.meta.orientacoes_gerais
   const matched = resolveExames(message, history)
+  if (asksMedicationDecision(message)) {
+    const phones = [...new Set(matched.map(e => phoneForModalidade(e.modalidade)))]
+    return {
+      reply: medicationReferral + (matched.length && matched.every(e => preparos.preparos[e.preparo_id].status === "pendente") ? " O preparo específico ainda não está cadastrado na base." : "") + `\n\nContato para confirmar: ${phones.join("; ") || geral.telefones.imagem_geral}.`,
+      sources: matched.map(e => profile === "professional" ? { nome: e.nome, sigla: e.sigla } : { nome: e.nome }),
+    }
+  }
+  const intent = deterministicIntent(message)
+  if (intent === "count") {
+    const filter = parseFilter(message)
+    const count = exames.filter(e => (!filter.modalidade || e.modalidade === filter.modalidade) && (!filter.need || classifyPreparo(e, preparos) === filter.need)).length
+    return { reply: `Total de exames na base: ${exames.length}.` + (filter.modalidade || filter.need ? `\nNo filtro solicitado: ${count}. A classificação de preparo segue o cadastro atual; informação pendente não significa dispensa de preparo.` : ""), sources: [] }
+  }
+  if (intent === "clarify") return { reply: "Qual região do corpo será examinada? O pedido informa com ou sem contraste e com ou sem sedação? Confirme essas informações para identificarmos o exame antes de detalhar o preparo.", sources: [] }
+  if (intent === "documents") return {
+    reply: (matched.length ? matched.map(e => e.nome_usual).join("; ") + "\n\n" : "") + geral.orientacoes.replace(/Comparecer[^.]*antecedência\.\s*/i, "") + "\n\n" + arrivalInstruction(matched.map(e => preparos.preparos[e.preparo_id].orientacoes)) + " A antecedência específica registrada prevalece sobre a orientação geral.",
+    sources: matched.map(e => profile === "professional" ? { nome: e.nome, sigla: e.sigla } : { nome: e.nome }),
+  }
   const fluxo = wantsFluxoRaiox(message) ? fluxoReply() : null
 
   // Pergunta-lista ("quais exames de raio-X exigem preparo?"): responde a lista.
@@ -160,8 +179,10 @@ export function generateMockResponse(
         b += `\n**Preparo:** ${preparo.fallback}`
         b += `\n\n**Telefone para confirmar:** ${phone}`
       } else {
-        const semPreparo = preparo.status === "ok" && semPreparoRegex.test(preparo.orientacoes)
-        b += `\n**Preparo:**\n`
+        const semPreparo = preparo.status === "ok" && explicitlyNoPreparation(exame.preparo_id)
+        b += preparo.status === "parcial"
+          ? `\n**Preparo parcial:** estas são as informações cadastradas. Confirme com o setor as orientações não registradas.\n`
+          : `\n**Preparo:**\n`
         b += toItems(preparo.orientacoes)
           .map((i) => `- ${i}`)
           .join("\n")
@@ -184,7 +205,7 @@ export function generateMockResponse(
     profile === "professional"
       ? ""
       : `\n\n---\n**Documentos para levar:** documento de identificação com foto, Cartão do SUS, Cartão do Hospital e o pedido médico original. Traga também exames anteriores relacionados, se tiver.` +
-        `\n\n**No dia:** chegue com 30 minutos de antecedência. Avise o setor com antecedência se você é de isolamento, acamado(a), usa oxigênio contínuo ou é obeso(a).`
+        `\n\n**No dia:** ${arrivalInstruction(matched.map(e => preparos.preparos[e.preparo_id].orientacoes))} Avise o setor com antecedência se você é de isolamento, acamado(a), usa oxigênio contínuo ou é obeso(a).`
 
   let reply = blocks.join("\n\n---\n\n") + docsBlock
 
