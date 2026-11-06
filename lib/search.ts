@@ -124,7 +124,7 @@ function buildIndex(exames: Exame[]): Indexed[] {
       exame.nome,
       exame.nome_usual,
       ...exame.sinonimos,
-    ].map(normalize)
+    ].map(identityText)
     const haystack = fields.join(" ")
     return {
       exame,
@@ -144,6 +144,33 @@ function getIndex(exames: Exame[]): Indexed[] {
   return INDEX
 }
 
+/** Identify a future exam separately from an explicitly past procedure.
+ * Unqualified multi-exam requests remain ambiguous; do not select the last name.
+ */
+export function examTargetQuery(query: string): string {
+  const normalized = normalize(query)
+  if (!/\b(fiz|realizei)\b/.test(normalized)) return query
+  const future = /\be (?:tenho|vou fazer|farei)\b/.exec(normalized)
+  const target = future ? normalized.slice(future.index + 2) : ''
+  return /\b(tomografia|tc|ressonancia|rm|ultrassom|ultrassonografia|usg|mamografia|densitometria|cintilografia|radiografia|rx|histerossalpingografia|uretrocistografia)\b|raio x/.test(target) ? target : query
+}
+
+function identityText(text: string): string {
+  return normalize(text)
+    .replace(/\b(abdome|abdomem|abdominal|barriga)\b/g, 'abdomen')
+    .replace(/\b(totall)\b/g, 'total')
+    .replace(/\b(cabeca|encefalo)\b/g, 'cranio')
+}
+
+// These are lexical catalog identities, not clinical preparation equivalences.
+const identityTerms = [
+  /\bcranio\b/, /\babdomen\b/, /\btorax\b/, /\bpelv(?:e|ica|ico)\b/,
+  /\bcoluna\b/, /\bjoelho\b/, /\bombro\b/, /\bpunho\b/, /\bquadril\b/,
+  /\bpescoco\b/, /\bcoxa\b/, /\bmao(?:s)?\b/, /\bpe(?:s)?\b/,
+  /\bobstetric/, /\bprostata\b/, /\bmama(?:s)?\b/, /\brenal|\brenais\b/,
+  /\btransvaginal\b/, /\bhisterossalpingografia\b/, /\buretrocistografia\b/,
+]
+
 /**
  * Busca textual normalizada em sigla, nome, nome_usual e sinonimos.
  * Retorna até 3 candidatos ordenados por relevância.
@@ -156,8 +183,9 @@ function getIndex(exames: Exame[]): Indexed[] {
  *    com teto), sem primeira-letra diferente e sem tokens curtos.
  */
 export function searchExames(query: string, exames: Exame[]): Exame[] {
-  const q = normalize(query)
+  const q = identityText(examTargetQuery(query))
   if (!q) return []
+  if (['contraste', 'sedacao'].some(attribute => q.includes(`com ${attribute}`) && q.includes(`sem ${attribute}`))) return []
 
   // Tokens significativos: > 1 char e não stopwords.
   const rawTokens = q
@@ -184,6 +212,9 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
   if (mentioned.length > 1) return []
   const contrast = /\bsem contraste\b/.test(q) ? false : /\bcom contraste\b/.test(q) ? true : undefined
   const sedation = /\bsem sedacao\b/.test(q) ? false : /\bcom sedacao\b/.test(q) ? true : undefined
+  // Missing sedation metadata may identify an exam for general documents only.
+  // It never establishes compatibility for clinical preparation instructions.
+  const administrativeOnly = /document|cartao|(?:devo|preciso) levar/.test(q) && !/jeju|preparo|bexiga/.test(q)
   const child = /\bcrianca\b|\bfilh[oa]\b|\bpediatric/.test(q)
   const adult = /\badult/.test(q)
   const compatible = (name: string, attribute: string, value: boolean | undefined) =>
@@ -191,10 +222,32 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
 
   const scored = index
     .filter(({ exame }) => {
-      const name = normalize(`${exame.nome} ${exame.nome_usual}`)
+      const name = identityText(`${exame.nome} ${exame.nome_usual}`)
       const explicitCode = q === normalize(exame.sigla) || (/\bcodigo\b/.test(q) && q.split(' ').includes(normalize(exame.sigla)))
+      if (!explicitCode && identityTerms.some(term => term.test(q) && !term.test(name))) return false
+      if (!explicitCode && /\babdomen\b/.test(q) && /\b(total|superior|inferior)\b/.test(q)) {
+        const part = q.match(/\b(total|superior|inferior)\b/)![0]
+        if (!new RegExp(`\\b${part}\\b`).test(name)) return false
+      }
+      if (/\bsimples\b/.test(q) && /\bcontrastado\b/.test(name)) return false
       // Do not introduce a specialized procedure when the question asks for a general exam.
       const specialScopes = [
+        { inName: /prostata/, inQuery: /prostata/ },
+        { inName: /\brenal|\brenais/, inQuery: /\brenal|\brenais|\brins?\b/ },
+        { inName: /obstetric/, inQuery: /obstetric/ },
+        { inName: /parede abdomen/, inQuery: /parede abdomen/ },
+        { inName: /hepatoespecific|primovist/, inQuery: /hepatoespecific|primovist/ },
+        { inName: /entero/, inQuery: /entero/ },
+        { inName: /fluoroscop/, inQuery: /fluoroscop/ },
+        { inName: /abdomen agudo/, inQuery: /abdomen|barriga|agudo/ },
+        { inName: /pelvic/, inQuery: /pelvic|pelve|transvaginal/ },
+        { inName: /coracao|cardiac/, inQuery: /coracao|cardiac/ },
+        { inName: /cateter/, inQuery: /cateter/ },
+        { inName: /\buti\b|\bleito\b/, inQuery: /\buti\b|\bleito\b|internad/ },
+        { inName: /insp e exp/, inQuery: /insp|expir/ },
+        { inName: /doppler/, inQuery: /doppler/ },
+        { inName: /angio/, inQuery: /angio/ },
+        { inName: /transvaginal/, inQuery: /transvaginal/ },
         { inName: /pre transplante/, inQuery: /transplant/ },
         { inName: /peca cirurg/, inQuery: /peca|cirurg/ },
         { inName: /regulacao/, inQuery: /regulacao/ },
@@ -204,7 +257,7 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
       ]
       if (!explicitCode && specialScopes.some(scope => scope.inName.test(name) && !scope.inQuery.test(q))) return false
       return (!mentioned.length || mentioned.includes(exame.modalidade)) &&
-        compatible(name, "contraste", contrast) && compatible(name, "sedacao", sedation) &&
+        compatible(name, "contraste", contrast) && (compatible(name, "sedacao", sedation) || (administrativeOnly && !/\b(com|sem) sedacao\b/.test(name))) &&
         (!child || /pediatric|crianca/.test(name)) && (!adult || !/pediatric|crianca/.test(name))
     })
     .map(({ exame, sigla, haystack, hayTokens }) => {
@@ -217,9 +270,9 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
       if (haystack.includes(q)) score += W_FIELD_CONTAINS_Q
       if (q.includes(haystack) && haystack) score += W_Q_CONTAINS_FIELD
 
-      // Token significativo (singularizado): substring OU token exato do haystack.
+      // Score complete normalized tokens; accessory words must not match name fragments.
       for (const token of tokens) {
-        if (haystack.includes(token) || hayTokens.includes(token)) score += W_TOKEN
+        if (hayTokens.some(t => stemToken(identityText(t)) === token)) score += W_TOKEN
       }
 
       // Termos leigos injetados: peso menor — ajudam a identificar região, mas
@@ -236,6 +289,7 @@ export function searchExames(query: string, exames: Exame[]): Exame[] {
         if (fuzzyTokenHits(token, hayTokens)) fuzzy = Math.min(FUZZY_CAP, fuzzy + W_FUZZY)
       }
       score += fuzzy
+      if (!/direit|esquerd/.test(q) && /direit|esquerd/.test(haystack)) score -= 3
 
       return { exame, score }
     })

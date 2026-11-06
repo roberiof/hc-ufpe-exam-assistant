@@ -2,11 +2,10 @@ import { conversationQuery } from "./conversation-query"
 import { composeAnswer } from "./answer-composer"
 import examesData from "@/data/exames.json"
 import preparosData from "@/data/preparos.json"
-import { searchExames, normalize } from "@/lib/search"
+import { searchExames, normalize, examTargetQuery } from "@/lib/search"
 import { stemQuery } from "@/lib/stem"
-import { arrivalInstruction } from "@/lib/preparation-policy"
 import { asksMedicationDecision, medicationReferral } from "@/lib/medication-policy"
-import { deterministicIntent } from "@/lib/request-policy"
+import { deterministicIntent, wantsListaRaiox } from "@/lib/request-policy"
 import { parseFilter, classifyPreparo } from "@/lib/aggregate"
 import type { ChatMessage, Exame, PreparosFile, Profile, Source } from "@/lib/types"
 
@@ -30,15 +29,6 @@ function wantsFluxoRaiox(query: string): boolean {
   return (mentionsRaiox && fluxoRxRegex.test(q)) || /\baghu\b|maqueir/.test(q)
 }
 
-function wantsListaRaiox(query: string): boolean {
-  const q = stemQuery(normalize(query))
-  const mentionsRaiox = /\braio\s?x\b|\brx\b|radiologia|contrastad/.test(q)
-  const isListing =
-    /\bquais\b|\bque\b|lista|listar|todos|quantos|relacao|exigem|precisam|necessitam|exige|precisa de preparo|tem preparo|com preparo/.test(
-      q,
-    )
-  return mentionsRaiox && isListing
-}
 
 /** Monta a lista de exames de raio-X com preparo a partir da base. */
 function listaRaioxReply(): { reply: string; sources: Source[] } | null {
@@ -94,14 +84,21 @@ function buildResponse(
     }
   }
   const intent = deterministicIntent(message) ?? (deterministicIntent(conversationQuery(message, history)) === "clarify" ? "clarify" : undefined)
+  if (intent === 'missing') return {reply:'Não tenho um preparo específico cadastrado para um exame que não foi identificado no catálogo. Isso não significa que ele dispense preparo. Confirme com o setor antes do exame.\n\nContato para confirmar: ' + phoneForModalidade(parseFilter(message).modalidade ?? '') + '.', sources:[]}
+  if (intent === 'attributes') return {reply:'A mensagem menciona atributos diferentes para o exame. O pedido informa com ou sem contraste e com ou sem sedação? Confirme a variante para evitarmos misturar orientações.', sources:[]}
   if (intent === "count") {
     const filter = parseFilter(message)
     const count = exames.filter(e => (!filter.modalidade || e.modalidade === filter.modalidade) && (!filter.need || classifyPreparo(e, preparos) === filter.need)).length
     return { reply: `Total de exames na base: ${exames.length}.` + (filter.modalidade || filter.need ? `\nNo filtro solicitado: ${count}. A classificação de preparo segue o cadastro atual; informação pendente não significa dispensa de preparo.` : ""), sources: [] }
   }
   if (intent === "clarify") return { reply: "Qual região do corpo será examinada? O pedido informa com ou sem contraste e com ou sem sedação? Confirme essas informações para identificarmos o exame antes de detalhar o preparo.", sources: [] }
+  if (examTargetQuery(message) !== message && matched.length) return {
+    reply: 'Sua dúvida envolve o intervalo entre um exame já realizado e o próximo exame. Não consigo confirmar pelo cadastro se esse intervalo permite realizar o próximo exame. Confirme com o setor antes da data marcada, informando qual exame fez, o contraste utilizado e as datas dos dois exames.\n\nContato para confirmar: ' + phoneForModalidade(matched[0].modalidade) + '.',
+    sources: matched.map(e => ({ nome: e.nome, ...(profile === 'professional' ? {sigla:e.sigla} : {}) })),
+  }
   if (intent === "documents") return {
-    reply: (matched.length ? matched.map(e => e.nome_usual).join("; ") + "\n\n" : "") + geral.orientacoes.replace(/Comparecer[^.]*antecedência\.\s*/i, "") + "\n\n" + arrivalInstruction(matched.map(e => preparos.preparos[e.preparo_id].orientacoes)) + " A antecedência específica registrada prevalece sobre a orientação geral.",
+    reply: '**O que levar:**\n\n- Documento de identificação com foto\n- Cartão do SUS\n- Cartão do Hospital\n- Pedido médico original\n- Exames anteriores relacionados, se houver\n\nEsta é a lista geral do cadastro. Documentos ou exames adicionais específicos devem ser confirmados com o setor.' +
+      (matched.length ? '\n\nContato do setor: ' + phoneForModalidade(matched[0].modalidade) + '.' : ''),
     sources: matched.map(e => profile === "professional" ? { nome: e.nome, sigla: e.sigla } : { nome: e.nome }),
   }
   const fluxo = wantsFluxoRaiox(message) ? fluxoReply() : null
@@ -122,12 +119,12 @@ function buildResponse(
       profile === "professional"
         ? "Não consegui identificar o exame na sua solicitação. Informe o nome do exame (ex.: tomografia de tórax, ressonância de abdômen, ultrassonografia de abdômen) para que eu retorne o protocolo de preparo correspondente. Se você tem apenas o código AGHU, informe-o que retorno o nome do exame.\n\n" +
           `Em caso de dúvida sobre o cadastro, contato da Imagem Geral: ${geral.telefones.imagem_geral}.`
-        : "Não consegui identificar o exame na sua pergunta. Você pode me dizer o nome do exame que vai realizar? Por exemplo: tomografia de tórax, ressonância de abdômen, ultrassonografia, mamografia, raio-X, densitometria.\n\n" +
+        : "Não localizei um exame compatível com o nome e os atributos informados. Confira o nome completo no pedido; se ele estiver correto, confirme as orientações com o setor. Exemplos de exames do catálogo: tomografia de tórax, ressonância de abdômen, ultrassonografia, mamografia, raio-X, densitometria.\n\n" +
           `Se preferir, ligue para a Imagem Geral do HC-UFPE: ${geral.telefones.imagem_geral}.`
     return { reply, sources: [] }
   }
 
-  const composed = composeAnswer(conversationQuery(message, history), matched, preparos, profile)
+  const composed = composeAnswer(conversationQuery(message, history), matched, preparos, profile, message)
   if (composed) return fluxo ? { reply: composed.reply + "\n\n" + fluxo.reply, sources: [...composed.sources, ...fluxo.sources] } : composed
   return {reply: "Não consegui identificar uma orientação compatível. Confirme o nome completo do exame com a UDI.", sources: []}
 }

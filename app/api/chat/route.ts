@@ -15,7 +15,7 @@ import { prettifyExamName } from "@/lib/exam-options"
 import { generateMockResponse } from "@/lib/mock-response"
 import { explicitlyNoPreparation } from "@/lib/preparation-policy"
 import { asksMedicationDecision } from "@/lib/medication-policy"
-import { deterministicIntent } from "@/lib/request-policy"
+import { deterministicIntent, wantsListaRaiox } from "@/lib/request-policy"
 import type { ChatMessage, Exame, PreparosFile, Profile, Source } from "@/lib/types"
 
 export const runtime = "nodejs"
@@ -66,15 +66,6 @@ function wantsFluxoRaiox(query: string): boolean {
 }
 
 // Detecta perguntas que pedem a LISTA de exames de raio-X que exigem preparo.
-function wantsListaRaiox(query: string): boolean {
-  const q = stemQuery(normalize(query))
-  const mentionsRaiox = /\braio\s?x\b|\brx\b|radiologia|contrastad/.test(q)
-  const isListing =
-    /\bquais\b|\bque\b|lista|listar|todos|quantos|relacao|exigem|precisam|necessitam|exige|precisa de preparo|tem preparo|com preparo/.test(
-      q,
-    )
-  return mentionsRaiox && isListing
-}
 
 // Deriva da base os exames de raio-X (radiologia convencional) que têm preparo
 // contrastado cadastrado — exclui o raio-X simples, que não exige preparo.

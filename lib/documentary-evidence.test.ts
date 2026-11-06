@@ -24,7 +24,9 @@ it('não transfere bexiga cheia de total para superior nem mistura candidatos de
  expect(r.reply).not.toContain('bexiga cheia')
  expect(r.sources.flatMap(s=>s.evidence??[]).map(f=>f.factId)).toEqual(['us-abdomen-fasting'])
  const both=composeAnswer('Ultrassom de abdômen', [e,exams.find(e=>e.sigla==='USABT')!], preparations,'patient')!
- expect(both.reply).toContain('nome completo')
+ expect(both.reply).toContain('Qual delas consta no pedido?')
+ expect(both.reply).toContain('ULTRASSONOGRAFIA ABDOMINAL SUPERIOR')
+ expect(both.reply).toContain('ULTRASSONOGRAFIA DE ABDOMEN TOTAL')
  expect(both.reply).not.toContain('Jejum de')
 })
 it('Doppler renal tem o próprio trecho de jejum, sem virar preparo urinário', () => {
