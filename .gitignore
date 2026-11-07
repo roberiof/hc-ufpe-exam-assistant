@@ -9,6 +9,9 @@ __v0_jsx-dev-runtime.ts
 # Environment variables
 .env*.local
 
+# Local Codex configuration and secrets
+/config/
+
 # Common ignores
 node_modules
 .next/
