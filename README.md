@@ -139,6 +139,8 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run lint` | Run ESLint |
 | `npm run ingest` | Regenerate `data/exames.json` from the source spreadsheet |
 | `npm run ingest:check` | Parse + validate + report, without writing |
+| `npm run audit:catalog` | Audit catalog, preparation links and source conflicts; regenerate JSON/Markdown reports |
+| `npm run audit:catalog:check` | Verify reports are current and fail on structural blockers |
 | `npm run test:e2e` | Run the Playwright end-to-end suite |
 | `npm run test:e2e:ui` | Run the E2E suite in Playwright UI mode |
 

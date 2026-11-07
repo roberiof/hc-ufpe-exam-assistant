@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { useSearchParams, useRouter } from "next/navigation"
 import {
@@ -65,6 +65,7 @@ class NetworkError extends Error {}
 
 const REQUEST_TIMEOUT_MS = 30_000
 const MAX_ATTEMPTS = 2
+const MAX_INPUT_HEIGHT_PX = 128
 
 async function postChatMessage(payload: ChatRequest) {
   let lastNetworkError: unknown
@@ -131,6 +132,7 @@ export function ChatClient() {
   const [isLoading, setIsLoading] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
   // Trava de envio em andamento — bloqueia envios em sequência no mesmo tick,
   // antes de o estado isLoading ser aplicado (sugestões/picker não são desativados).
   const sendingRef = useRef(false)
@@ -150,6 +152,18 @@ export function ChatClient() {
       behavior: "smooth",
     })
   }, [messages, isLoading])
+
+  useLayoutEffect(() => {
+    const textarea = inputRef.current
+    if (!textarea) return
+
+    // Recalcula a partir da altura mínima para também encolher ao apagar/enviar.
+    textarea.style.height = "auto"
+    const contentHeight = textarea.scrollHeight
+    textarea.style.height = `${Math.min(contentHeight, MAX_INPUT_HEIGHT_PX)}px`
+    textarea.style.overflowY =
+      contentHeight > MAX_INPUT_HEIGHT_PX ? "auto" : "hidden"
+  }, [input])
 
   function switchProfile() {
     const next = profile === "patient" ? "professional" : "patient"
@@ -338,6 +352,7 @@ export function ChatClient() {
           className="mx-auto flex max-w-2xl items-end gap-2 px-4 py-3"
         >
           <textarea
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
